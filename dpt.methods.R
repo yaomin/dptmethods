@@ -914,7 +914,13 @@ node.pick.range <- function(anode, id.start=1,tol=1e4, debug=F){
   rests
 }
 
-events.score <- function(res, events.res, rownames, sample.label, which.score=2, npart=10, para.mode=2) {
+events.score <- function(res, 
+                         events.res, 
+                         rownames, 
+                         sample.label, 
+                         which.score=2, 
+                         npart=10, 
+                         para.mode=2) {
   ## so called event probability
 
   if(length(which.score)>1) stop("Select only one number from 1-5!")
@@ -930,8 +936,12 @@ events.score <- function(res, events.res, rownames, sample.label, which.score=2,
   patts <- pattern.design(events.res, sample.label)
   for (i in seq(ncol(events.res))) {
     cat("pattern:",paste(patts[,i],sep="",collapse=""))
-    .this <- event.prob(w3.res, sample.label,
-                        event=patts[,i],p=p3, which.score=which.score, npart=npart,
+    .this <- event.prob(w3.res, 
+                        sample.label,
+                        event=patts[,i],
+                        p=p3, 
+                        which.score=which.score, 
+                        npart=npart,
                         para.mode=para.mode)
     e.res[[i]] <- as.vector(.this)
     cat("\t","done\n")
@@ -1631,31 +1641,31 @@ event.patternsToScan <- function(allpatt, exclude=NULL,noZeroPatt=T) {
   out
 }
 
-###. Initial filtering
-##____________________________________________________________________
-est.pois.lambda <- function(tab) {
-  f1 <- with(tab, freq[count==1])
-  f2 <- with(tab, freq[count==2])
-  2*f2/f1
-}
+# ###. Initial filtering
+# ##____________________________________________________________________
+# est.pois.lambda <- function(tab) {
+#   f1 <- with(tab, freq[count==1])
+#   f2 <- with(tab, freq[count==2])
+#   2*f2/f1
+# }
 
-est.fdr <- function(n,tb) {
-  lambda <- est.pois.lambda(tb)
-  n.total <- with(tb, freq[count==1])/dpois(1, lambda)
-  n.total*dpois(n,lambda)/with(tb, freq[count == n])
-}
+# est.fdr <- function(n,tb) {
+#   lambda <- est.pois.lambda(tb)
+#   n.total <- with(tb, freq[count==1])/dpois(1, lambda)
+#   n.total*dpois(n,lambda)/with(tb, freq[count == n])
+# }
 
-compute.initfilter.cutoff <- function(tbs, cutoff=0.5) {
-  ## which count cutoff should be used so that at least one sample start to contain at least 'cutoff'
-  ##  positives (max of counts across all samples should be at east this number)
-  ifsatisfy <- rowSums(sapply(tbs, function(x) sapply(1:10, est.fdr, tb=x)) < cutoff) >0
-  which(ifsatisfy)[1]
-}
+# compute.initfilter.cutoff <- function(tbs, cutoff=0.5) {
+#   ## which count cutoff should be used so that at least one sample start to contain at least 'cutoff'
+#   ##  positives (max of counts across all samples should be at east this number)
+#   ifsatisfy <- rowSums(sapply(tbs, function(x) sapply(1:10, est.fdr, tb=x)) < cutoff) >0
+#   which(ifsatisfy)[1]
+# }
 
-get.initfilter.cutoff <- function(counts.tab, cutoff=0.5) {
-  ##get.mappedCountTab()
-  compute.initfilter.cutoff(counts.tab, cutoff=cutoff)
-}
+# get.initfilter.cutoff <- function(counts.tab, cutoff=0.5) {
+#   ##get.mappedCountTab()
+#   compute.initfilter.cutoff(counts.tab, cutoff=cutoff)
+# }
 ###. Normalization
 ##____________________________________________________________________
 est.NB <- function(tb) {
