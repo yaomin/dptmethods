@@ -1,0 +1,4 @@
+stop.para <-
+function(...) {
+  sfStop(...)
+}
