@@ -1,11 +1,10 @@
 dpt.qvalues <-
 function(flat.test.report,
-                        cutoff.by.winsize=T,
-                        winsize=50,
-                        cutoff.by.winsize.pct=0.9,
-                        pvalue.var="p.value.1",
-                        split.vars=c("pattern", "contrast")) {
-  
+         cutoff.by.winsize=T,
+         winsize=50,
+         cutoff.by.winsize.pct=0.9,
+         pvalue.var="p.value.1",
+         split.vars=c("pattern", "contrast")) {  
 ### handle NA pvalues
 ### flat.test.report is a RangedData class
   qvalues.init <- rep(NA, nrow(flat.test.report))

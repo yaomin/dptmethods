@@ -1,7 +1,7 @@
 compute.minB.para <-
 function(res,
-                              pattern=c(0,0,0,1,1,1,1,1,1),
-                              v=3)
+         pattern=c(0,0,0,1,1,1,1,1,1),
+         v=3)
 {
   if(v==1) ab.1 <- compute.beta.para(res)
   else if(v==2) ab.1 <- compute.beta.para.2(res)

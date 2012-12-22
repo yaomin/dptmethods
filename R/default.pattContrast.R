@@ -1,6 +1,5 @@
 default.pattContrast <-
 function(patt) {
-  ##browser()
   if(!all(patt==1)) {
     n.patt <- length(patt)
     patt.flip <- rep(1,n.patt)-patt

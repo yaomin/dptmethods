@@ -1,6 +1,5 @@
 denoiseSignal <-
 function(tb) {
-  ##browser()
   N <- sapply(tb, est.NB)
   lams <- sapply(tb, est.pois.lambda)
   newtb <- vector("list", length(tb))

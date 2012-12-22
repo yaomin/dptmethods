@@ -1,12 +1,10 @@
 select.wins.test.report <-
 function(xl, method="fdr",
-                                        cutoff=0.05,
-                                        pvalue.col.list,
-                                        effect.col.list,
-                                        sign.names=c("Hypo","Hyper"))
+         cutoff=0.05,
+         pvalue.col.list,
+         effect.col.list,
+         sign.names=c("Hypo","Hyper"))
 {
-  ## pvalue.col can be a vector: different elements in xl might take different p value cols.
-  ##browser()
   n.list <- length(xl)
   output <- vector("list", length=n.list)
 

@@ -1,8 +1,8 @@
 make.reportContrast <-
 function(report.flat,
-                                pvalue.var="p.value.1",
-                                effect.var="value.1",
-                                type=c(1,2))
+         pvalue.var="p.value.1",
+         effect.var="value.1",
+         type=c(1,2))
 {
   if(type ==1) {
     contrDF <- expand.grid(dimnames(with(report.flat, table(contrast, pattern))))

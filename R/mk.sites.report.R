@@ -1,11 +1,11 @@
 mk.sites.report <-
 function(sites,
-                            index.col,
-                            win.col="Win",
-                            win.score="Win.score",
-                            score.fun=c("max","mean"),
-                            winsize=50,
-                            ...)
+         index.col,
+         win.col="Win",
+         win.score="Win.score",
+         score.fun=c("max","mean"),
+         winsize=50,
+         ...)
 {
   rangeFun <- function(x) {
     r.x <- range(as.integer(x[,win.col]))

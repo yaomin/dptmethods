@@ -1,12 +1,12 @@
 select.sites.GWadj <-
 function(sites.data,
-                               reads.data,
-                               method=c("qvalue","BY","bonferroni"),
-                               cutoff=0.05,
-                               pvalue.colname="pvalue",
-                               sites.out.file="allsites",
-                               reads.out.file="allreads",
-                               out.path="Reports")
+         reads.data,
+         method=c("qvalue","BY","bonferroni"),
+         cutoff=0.05,
+         pvalue.colname="pvalue",
+         sites.out.file="allsites",
+         reads.out.file="allreads",
+         out.path="Reports")
 {
   method <- match.arg(method)
   out.sites.sel <- NULL

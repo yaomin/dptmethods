@@ -1,6 +1,5 @@
 extend.seq <-
 function(seqdat, start=NULL, end=NULL, by=100) {
-  
   if(is.null(start)) if(nrow(seqdat) > 0) NA else start=min(seqdat[,1])
   if(is.null(end)) if(nrow(seqdat) > 0) NA else end = max(seqdat[,1])
   V2 = seq(from=start, to=end, by = by)

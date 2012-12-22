@@ -1,6 +1,6 @@
 est.beta.para <-
 function(x) {
-  ## Moment estimate of parameters
+  ## Moment estimates of parameters
   u <- mean(x)
   v <- var(x)
   a <- (1-u)*u^2/v-u

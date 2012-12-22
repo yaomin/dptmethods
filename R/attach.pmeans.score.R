@@ -1,9 +1,9 @@
 attach.pmeans.score <-
 function(sites.js.bfcut.1,
-                                index.col,
-                                sites.js.ex,
-                                pmeans.norm,
-                                sample.select) {
+         index.col,
+         sites.js.ex,
+         pmeans.norm,
+         sample.select) {
   res1 <- pmeans.norm[sites.js.ex$Win,sample.select, drop=F]
   res2 <- data.frame(sites.js.ex, res1)
   names(res2) <- c(names(sites.js.ex), "pmeans")

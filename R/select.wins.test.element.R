@@ -1,11 +1,10 @@
 select.wins.test.element <-
 function(x, method="fdr",
-                                        cutoff=0.05,
-                                        pvalue.col,
-                                        effect.col,
-                                        sign.names=c("Hypo","Hyper"))
+         cutoff=0.05,
+         pvalue.col,
+         effect.col,
+         sign.names=c("Hypo","Hyper"))
 {
-  ##browser()
   pvalue.colname <- names(x)[pvalue.col]
   effect.colname <- names(x)[effect.col]
   

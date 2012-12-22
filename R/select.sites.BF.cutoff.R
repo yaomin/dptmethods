@@ -25,7 +25,6 @@ function(sites.df,
   ## 5 chr10-P1-1.1003
   ## 6 chr10-P1-1.1004
   ##
-  ##browser()
   patts <- unique(sites.df[,pattern.col])
   chrs <- unique(sites.df[, chr.col])
   out.sites <- NULL

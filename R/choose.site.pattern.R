@@ -1,6 +1,5 @@
 choose.site.pattern <-
 function(e.res, start, end, e.cutoff=-1, site.cutoff=.66) {
-  ##browser()
   site.patt.df <- subset(e.res,
                          subset=as.integer(row.names(e.res))>=as.integer(start) & as.integer(row.names(e.res)) <= as.integer(end)) > e.cutoff
   patt.counts <- colSums(site.patt.df)

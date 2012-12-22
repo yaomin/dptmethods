@@ -1,12 +1,11 @@
 dpt.report.postprocess <-
 function(flat.test.report,
-                                   cutoff.by.winsize=T,
-                                   winsize=50,
-                                   cutoff.by.winsize.pct=0.9,
-                                   pvalue.var="p.value.1",
-                                   split.vars=c("pattern", "contrast"),
-                                   cols.remove=c("space","seq", "ID")) {
-  ##browser()
+         cutoff.by.winsize=T,
+         winsize=50,
+         cutoff.by.winsize.pct=0.9,
+         pvalue.var="p.value.1",
+         split.vars=c("pattern", "contrast"),
+         cols.remove=c("space","seq", "ID")) {
   .dt <- trans2rangedData(remove.dupsite(flat.test.report), ext.end=winsize-1)
   .dt$qvalue <- dpt.qvalues(.dt,
                             cutoff.by.winsize=cutoff.by.winsize,

@@ -73,7 +73,6 @@ function(rootpath,mappedFiles,outpath) {
 
   cat("writting merged data to workspace...\n")
   for (chr in names(out)) {
-    ##browser()
     cat("",tabsps(chr))
     obj.name <- paste("s", chr, sep=".")
     assign(obj.name, as.data.frame(out[[chr]]))

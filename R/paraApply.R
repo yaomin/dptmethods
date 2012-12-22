@@ -1,8 +1,8 @@
 paraApply <-
 function(x, margin, fun, ...,mode=real64(),mode.size=8, tmp.dir=".tmp",ncore=NULL) {
-  ## Parallel version apply with ncore blocks on the input matrix x
+  ## Parallel version with ncore blocks on the input matrix x
   ## Memory efficient with mmap
-  ##browser()
+
   if(is.null(ncore)) ncore <- sfCpus()
   if(is.null(tmp.dir)) tmp.dir <- get.ws.path("tmp")
   if(missing(mode.size)) mode.size <- sizeof(mode)
@@ -33,7 +33,7 @@ function(x, margin, fun, ...,mode=real64(),mode.size=8, tmp.dir=".tmp",ncore=NUL
                       fun.text,
                       .cut,
                       ...) {
-    ##browser()
+
     fun <- eval(parse(text=fun.text))
     .len <- sum(.cut==levels(.cut)[y])
     if(y>1) {

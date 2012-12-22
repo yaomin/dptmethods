@@ -4,17 +4,9 @@ function(wins, psig, vars, group.label,
                         contr= cbind(c(0,1,1),c(0,1,-1)),
                         src.file="")
 {
-  ##browser()
   unique.wins <- unique(wins$ID)
   n.wins <- length(unique.wins)
   test.effect.worker <- function(i) {
-    ##browser()
-    ## 31775 is one with NULL output
-    ### Debug code
-    ## if(i%%10 ==0) cat("** ")
-    ## cat(i)
-    ## if(i%%10==0) cat("\n")
-
     wins.by.id <- as.character(unlist(subset(wins,
                                              subset=ID==unique.wins[i],
                                              select="Win")))
@@ -71,8 +63,6 @@ function(wins, psig, vars, group.label,
   if(n.core>1) n.wins.cut <- as.numeric(cut(seq(n.wins), n.core)) else n.wins.cut <- rep(1, n.wins)
   n.wins.seq <- seq(n.wins)
 
-  ##sfExportAll()
-  ##sfSource(src.file)
   sfExport("wins", "psig", "vars", "contr", "n.core", "n.wins.cut","n.wins.seq",
            "unique.wins","n.wins")
 
@@ -109,7 +99,6 @@ function(wins, psig, vars, group.label,
     if(!is.null(res.ncols)) break
   }
 
-  ##browser()
   res <- as.data.frame(matrix(unlist(res.list), ncol=res.ncols, byrow=T))
   names(res) <- res.names
   

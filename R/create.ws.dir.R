@@ -1,13 +1,13 @@
 create.ws.dir <-
 function(which=c("root",
-                                "mixPoisson",
-                                "pattRecog",
-                                "diffTest",
-                                "preprocess",
-                                "log",
-                                "report",
-                                "src",
-                                "tmp"),
+                 "mixPoisson",
+                 "pattRecog",
+                 "diffTest",
+                 "preprocess",
+                 "log",
+                 "report",
+                 "src",
+                 "tmp"),
                           pos=-1
                           )
 {

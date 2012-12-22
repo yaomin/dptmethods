@@ -1,8 +1,8 @@
 #' @export
 get.reads.fromJoinedSamples <-
 function(inputPath, chr, threshold=1, pos=-1,
-                                        pos.out=parent.frame(), aug.fun=max,
-                                        sample.select=NULL) {
+         pos.out=parent.frame(), aug.fun=max,
+         sample.select=NULL) {
   dpt.options <- get("dpt.options", pos=pos)
   reads.datafile <- paste(inputPath,
                           paste(dpt.options[[c("output","joinSample")]],chr,"RData", sep="."),

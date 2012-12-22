@@ -1,7 +1,7 @@
 bf.filter.selSites <-
-function(sites.bf, cutoff,
-                               which.score=c("score.1","score","score.2","score.P","qvalue")) {
-  ##browser()
+function(sites.bf, 
+         cutoff,
+         which.score=c("score.1","score","score.2","score.P","qvalue")) {
   which.score <- match.arg(which.score) 
   if(which.score %in% c("score.1","score","score.2")) {
     sites <- subset(sites.bf, subset=sites.bf[,which.score] > cutoff)

@@ -1,8 +1,8 @@
 select.sites <-
 function(reports,
-                         cut.fdr=0.05, cut.effect = 1,
-                         cut.base=0.2, cut.eq=0.2,
-                         col.select=NULL, win.size=100) {
+         cut.fdr=0.05, cut.effect = 1,
+         cut.base=0.2, cut.eq=0.2,
+         col.select=NULL, win.size=100) {
 
   if(is.null(col.select)) col.select <- seq(ncol(reports))
   sel.fdr <- p.adjust(reports$pvalue, 'fdr') < cut.fdr

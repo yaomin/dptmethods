@@ -1,13 +1,11 @@
 #' @export
 get.ws.chrs <-
 function(which=c("mixPoisson",
-                          "pattRecog",
-                          "diffTest",
-                          "joinSample",
-                          "full"
-                          ),
-                        pos=-1
-                        )
+                 "pattRecog",
+                 "diffTest",
+                 "joinSample",
+                 "full"),
+         pos=-1)
 {
   which <- match.arg(which)
   dpt.options <- get("dpt.options", pos)

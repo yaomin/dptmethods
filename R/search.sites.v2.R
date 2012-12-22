@@ -43,7 +43,6 @@ function(wins.sel,
   }
   idx.list <- as.list(as.data.frame(t(idx)))
   process.search <- function(l) {
-    ##browser()
     den.cut.2 <- den.cutoff[l[1],2]
     wins.sel.cut <- wins.sel.cuts[[l[1]]][[l[2]]]
     if(nrow(wins.sel.cut)>1) {
@@ -59,7 +58,6 @@ function(wins.sel,
     patt.i <- rep(site.names[l[1]], nrow(sites.i))
     cbind(chr.i, patt.i, sites.i)
   }
-  ##sfSource(src.file)
   
   out.list <- sfClusterApplyLB(idx.list, process.search)
   out <- NULL

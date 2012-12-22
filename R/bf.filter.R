@@ -2,18 +2,16 @@
 
 bf.filter <-
 function(e.res,
-                      sites.js.ex,
-                      winsize,
-                      bf.cutoff,
-                      reads.poi,
-                      pmeans.norm,
-                      events.wins,
-                      sample.select,
-                      index.col=c("chr","pattern","ID"),
-                      summary.fun=mean, sample.size=10000,
-                      which.score=c("score.1","score","score.2","score.P","qvalue")) {
-  ##browser()
-  ## score.1 seems to be the most reasonable option
+         sites.js.ex,
+         winsize,
+         bf.cutoff,
+         reads.poi,
+         pmeans.norm,
+         events.wins,
+         sample.select,
+         index.col=c("chr","pattern","ID"),
+         summary.fun=mean, sample.size=10000,
+         which.score=c("score.1","score","score.2","score.P","qvalue")) {
   if(missing(sample.select)) sample.select <- rep(T, ncol(pmeans.norm))
   which.score <- match.arg(which.score)
   sites.js.bfcut.1 <- mk.sites.report(sites.js.ex,

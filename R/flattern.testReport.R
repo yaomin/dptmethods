@@ -1,12 +1,8 @@
 flattern.testReport <-
-function(test.report,
-                                chr,
-                                winsize,
-                                colnames)
+function(test.report, chr, winsize, colnames)
 {
   ## test.report can either be wins.test or wins.test.report
-  ##browser()
-  ### Assume the same number of columns in the contrasts of test.report
+  ## Assume the same number of columns in the contrasts of test.report
   if(missing(colnames)) {
     ##n.ctr <- ncol(attr(test.report[[1]][[1]], "contrast")) (Not as reliable)
     n.ctr <- nrow(attr(test.report[[1]][[1]], "contrast"))-1

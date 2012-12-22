@@ -1,6 +1,5 @@
 norm.tbs <-
 function(tbs, bg.correct=F) {
-  ##browser()
   tb.dn <- denoiseSignal(tbs)
   bg <- bg.N(tbs)
   ## tb.norm <- lapply(tb.dn, function(x) {x$freq <- x$freq + bg[x$count+1,'freq'];

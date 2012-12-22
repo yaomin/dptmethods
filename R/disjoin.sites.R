@@ -1,8 +1,8 @@
 #' @export
 disjoin.sites <-
 function(site.rl,
-                          gaps.within.rl,
-                          type=c("any", "start", "end", "two.ends","within","equal")) {
+         gaps.within.rl,
+         type=c("any", "start", "end", "two.ends","within","equal")) {
   type <- match.arg(type)
   if(type =="two.ends") {
     mtch1 <- subsetByOverlaps(gaps.within.rl, site.rl, type="start")

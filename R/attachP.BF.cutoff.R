@@ -1,14 +1,14 @@
 attachP.BF.cutoff <-
 function(sites.df,
-                              bf.ecdf,
-                              by.chr=F,
-                              pattern.col="pattern",
-                              size.col="size",
-                              score.col="score",
-                              chr.col="chr",
-                              winsize=50)
+         bf.ecdf,
+         by.chr=F,
+         pattern.col="pattern",
+         size.col="size",
+         score.col="score",
+         chr.col="chr",
+         winsize=50)
 {
-  ##browser()
+
   patts <- unique(sites.df[,pattern.col])
   chrs <- unique(sites.df[, chr.col])
   out.site <- NULL
@@ -19,7 +19,6 @@ function(sites.df,
       sites.df.patt <- subset(sites.df, subset=pattern==ipatt)
       bf.ecdf.patt <- bf.ecdf[[ipatt]]
       bfP <- apply(sites.df.patt, 1, function(x) {
-        ##print(x);
         this.ecdf <- bf.ecdf.patt[[as.integer(as.numeric(x[size.col])/winsize)]];
         1-this.ecdf(as.numeric(x[score.col]))})
       iout <- cbind(sites.df.patt,bfP)

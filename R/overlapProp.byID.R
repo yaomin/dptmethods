@@ -1,6 +1,6 @@
 overlapProp.byID <-
 function(dat1,dat2,id1,id2) {
-  ##browser()
+
   stopifnot(nrow(id1)==nrow(id2))
   p1 <- p2 <- rep(NA, nrow(id1))
   na1 <- is.na(id1[,1])

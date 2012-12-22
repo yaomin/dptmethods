@@ -1,11 +1,11 @@
 map.regions <-
 function(report.sig,
-                        report,
-                        chrom,
-                        methylType,
-                        patts=c("**1","*1*"),
-                        cutoff=5,
-                        winsize=100)
+         report,
+         chrom,
+         methylType,
+         patts=c("**1","*1*"),
+         cutoff=5,
+         winsize=100)
 {  ## parallel the process on multiple processes
   trf.sig <- subset(report.sig,
                     subset= chr==chrom & MethylType==methylType)

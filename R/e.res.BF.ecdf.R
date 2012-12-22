@@ -1,10 +1,10 @@
 e.res.BF.ecdf <-
-function(e.res, max.winsize=200, sample.size=10000, summary.fun=mean,
-                          max.winsize.asym=50, sample.size.asym=1000) {
-  ##browser()
-  ## sample.fun <- function(ae.res,rep.n) {
-  ##   ecdf(apply(replicate(rep.n, sample(ae.res, sample.size)), 1, summary.fun))
-  ## }
+function(e.res, 
+         max.winsize=200, 
+         sample.size=10000, 
+         summary.fun=mean,
+         max.winsize.asym=50, 
+         sample.size.asym=1000) {
   sample.fun <- function(ae.res,rep.n) {
     if(rep.n < max.winsize.asym) {
       ecdf(apply(replicate(rep.n, sample(ae.res, min(length(ae.res),sample.size))), 1, summary.fun))

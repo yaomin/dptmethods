@@ -1,11 +1,11 @@
 map.regs.chr <-
 function(trf.sig,
-                         trf,
-                         chrom,
-                         methylType,
-                         patts=c("**1","*1*","1**"),
-                         cutoff=5,
-                         winsize=100)
+         trf,
+         chrom,
+         methylType,
+         patts=c("**1","*1*","1**"),
+         cutoff=5,
+         winsize=100)
 {
   
   trf.sig.chr <- subset(trf.sig, subset=chr==chrom & MethylType==methylType)

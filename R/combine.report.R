@@ -1,6 +1,5 @@
 combine.report <-
 function(wins, tests, tests.select) {
-  ##browser()
   if(missing(tests.select)) tests.select=grep("ID|Value|p.value", names(tests))
   part1 <- as.data.frame(t(as.data.frame(lapply(by(as.integer(wins$Win),wins$ID, range), unlist))))
   rownames.part1 <- gsub('X', '', row.names(part1))

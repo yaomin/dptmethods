@@ -1,12 +1,12 @@
 par.poiComparePerWin <-
 function(dat.chr,
-                                 dir,
-                                 file.pre="",
-                                 n.reads,
-                                 grp=factor(rep(1:3, each=3)),
-                                 n=10000,
-                                 n.clusters=2,
-                                 sourcefile=NULL)
+         dir,
+         file.pre="",
+         n.reads,
+         grp=factor(rep(1:3, each=3)),
+         n=10000,
+         n.clusters=2,
+         sourcefile=NULL)
 {
   idx.split <- split(seq(dim(dat.chr)[1]), (seq(dim(dat.chr)[1])-1)%/%n)
   sfInit(parallel = T, cpus = n.clusters)

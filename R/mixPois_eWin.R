@@ -42,7 +42,7 @@ function(y, initials=NULL, para.priors, controls,
     r.old <- 1/mean(y[((y>0)+(y<=4))==2], na.rm=TRUE)
     signal.old <- y*(1+r.old)
   }
-  ##browser()
+
   if (sum(p.old)-1>p.tolerance|min(p.old)<0|max(p.old)>1) stop("Invalid p initials.")
   if (min(lambda.old, r.old, signal.old)<0) stop("Invalid lambda initials.")
     
@@ -66,7 +66,6 @@ function(y, initials=NULL, para.priors, controls,
       w.pst <- w.pst + w
       w.var <- w.var + w*w
     }
-    ##browser()
     ## step 1 (Z)
     ##z.new <- apply(w, 1, rmultin) ## QQ
     ##z.new <- t(z.new)

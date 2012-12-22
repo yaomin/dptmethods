@@ -1,6 +1,5 @@
 size.site <-
 function(sites) {
-  ## browser()
   output <- NULL
   sites.unique.pattern <- unique(sites$pattern)
   for (i in seq(along=sites.unique.pattern)) {

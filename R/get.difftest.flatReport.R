@@ -1,12 +1,10 @@
 #' @export
 get.difftest.flatReport <-
 function(path,
-                                    chrs,
-                                    winsize,
-                                    pos=-1
-                                    )
+         chrs,
+         winsize,
+         pos=-1)
 {
-  ##browser()
   dpt.options <- get("dpt.options", pos=pos)
   ws <- 'diffTest'
   if(missing(path)) path <- get.ws.path(ws, pos=pos)

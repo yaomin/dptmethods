@@ -1,6 +1,5 @@
 make.RContrast <-
 function(pattContr) {
-  ##browser()
   base.contr <- t(pattContr)[1,]
   zero.idx <- base.contr==0
   one.idx <- base.contr==1

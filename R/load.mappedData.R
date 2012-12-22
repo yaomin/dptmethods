@@ -1,6 +1,6 @@
 load.mappedData <-
 function(smpStr, from=c("R","file"), pos=-1, pos.out=parent.frame()) {
-  ##browser()
+
   from <- match.arg(from)
   if(from == "R") infiles <- smpStr
   else if(from == "file") infiles <- scan(get.str.smpsheet(smpStr), what="list", comment.char="#")

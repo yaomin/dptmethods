@@ -1,10 +1,6 @@
 clean.dupcontr.sites <-
-function(sites,
-                                 p.value.col,
-                                 n.para=10)
+function(sites, p.value.col, n.para=10)
 {
-  ## this seems to be the best I can do in R
-  ##browser()
   siteIDs <- siteUID(sites)
   cat("# of site IDs:", length(siteIDs),"\n")
   cat("# of unique site IDs:", length(unique(siteIDs)),"\n")
@@ -28,9 +24,6 @@ function(sites,
                          sites.sel$ID,                     
                          sep="-")),
                   function(x) {
-##                    nr <- dim(x)[1]
-##                    if(nr<2) x
-##                    else x[which.min(x[,p.value.col]),]
                     x[which.min(x[,p.value.col]),]
                   })
     ldply(out.sub, function(x) x)  

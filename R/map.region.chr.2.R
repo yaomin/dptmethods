@@ -1,6 +1,5 @@
 map.region.chr.2 <-
 function(tst, gap=500) {
- 
   tst.o <- tst[order(as.numeric(tst$start)),]
   tst.d <- tst.o$start[-1]-tst.o$end[-nrow(tst.o)]
   tst.flw <- tst.d < gap

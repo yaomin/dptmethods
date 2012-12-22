@@ -1,6 +1,5 @@
 match.pattern.win <-
 function(wins.sel, sites) {
-  ##browser()
   pattern.win <- rep("", nrow(sites))
   sites.Win <- sites$Win
   wins.sel.names <- names(wins.sel)

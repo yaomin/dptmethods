@@ -5,7 +5,7 @@ function(x, sample.label,event=c(0,0,0,1,1,1,1,1,1), p=rep(0.33,9), k=1e-36,
   ## assume x is in w3.res format as above
   ## p is the p3
 {
-  ##browser()
+
   escore <- event.prob.mx(x, event, p, k)
   
   if(para.mode==1) {

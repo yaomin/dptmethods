@@ -1,6 +1,5 @@
 clean.dupcontr.sigsites <-
-function(sigsites,
-                                    p.value.col)
+function(sigsites, p.value.col)
 {
   ## this is a inefficient implementation, optimize it whenever possible
   out.1 <- by(sigsites,

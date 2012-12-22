@@ -1,22 +1,19 @@
 #' @export
 get.wsoption.path <-
 function(which=c("root",
-                                "mixPoisson",
-                                "pattRecog",
-                                "diffTest",
-                                "preprocess",
-                                "joinSample",
-                                "log",
-                                "postprocess",
-                                "report",
-                                "type",
-                                "analysis",
-                                "src",
-                                "tmp"),
-                              pos=-1
-                              ## those which options are mapped from all possible places
-                              ## that might get queried to workspace
-                              )
+                 "mixPoisson",
+                 "pattRecog",
+                 "diffTest",
+                 "preprocess",
+                 "joinSample",
+                 "log",
+                 "postprocess",
+                 "report",
+                 "type",
+                 "analysis",
+                 "src",
+                 "tmp"),
+         pos=-1)
 {
   which <- match.arg(which)
   dpt.options <- get("dpt.options", pos=pos)

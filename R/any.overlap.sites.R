@@ -1,6 +1,5 @@
 any.overlap.sites <-
 function(R1, R2, e=500, self=F) {
-
   R1 <- as.matrix(R1)
   R2 <- as.matrix(R2)
   R1.ex <- R1

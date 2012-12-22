@@ -1,14 +1,13 @@
 attach.pmeans.cutoff <-
 function(sites.df,
-                                 score.ecdf,
-                                 by.chr=F,
-                                 pattern.col="pattern",
-                                 size.col="size",
-                                 score.col="pmeans",
-                                 chr.col="chr",
-                                 winsize=50)
+         score.ecdf,
+         by.chr=F,
+         pattern.col="pattern",
+         size.col="size",
+         score.col="pmeans",
+         chr.col="chr",
+         winsize=50)
 {
-  ##browser()
   patts <- unique(sites.df[,pattern.col])
   chrs <- unique(sites.df[, chr.col])
   out.site <- NULL

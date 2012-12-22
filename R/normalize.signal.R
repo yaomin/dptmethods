@@ -1,6 +1,6 @@
 normalize.signal <-
 function(x, tb, tb.norm, out.int=F) {
-  ##browser()
+
   ls0 <- approxfun(tb$count, tb$freq)
   lsnorm <- approxfun(tb.norm$count,tb.norm$freq)
 

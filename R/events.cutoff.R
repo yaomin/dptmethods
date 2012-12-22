@@ -6,8 +6,6 @@ function(res, e.res, cutoff, method = c("beta", "BF", "best"),find.range= c(-20,
   ##   1 0
   ##   1 1
   ## events are defined by columns
-  ##browser()
-
   method <- match.arg(method)
   events <- as.data.frame(attr(e.res, 'event'))
   sample.label <- attr(e.res, 'label')

@@ -1,6 +1,5 @@
 default.contrastList <-
 function(patts) {
-  ##browser()
   inpatt <- as.matrix(patts)
   out <- vector("list",ncol(inpatt))
   for(i in seq(dim(inpatt)[2])) {

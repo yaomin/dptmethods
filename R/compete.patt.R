@@ -1,6 +1,5 @@
 compete.patt <-
 function(sitelist) {
-  ##browser()
   olp <- findOverlaps(sitelist[[1]], sitelist[[2]])
   if(length(olp) >1) stop("Requre RangesMatchingList of length 1 between two sites")
   mm <- as.matrix(olp)

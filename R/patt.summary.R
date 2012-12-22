@@ -1,7 +1,5 @@
 patt.summary <-
 function(a.values, site.cutoff=0.66) {
-  ##browser()
-  ##a.values <- as.data.frame(values(a.rd))[,-1]
   patt.counts <- colSums(a.values)
   patt.counts.ord.12 <- sort(patt.counts, decreasing=T)[1:2]
   patt.diff.score <- abs(diff(patt.counts.ord.12))*2/sum(patt.counts.ord.12)

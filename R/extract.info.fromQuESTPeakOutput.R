@@ -1,7 +1,6 @@
 extract.info.fromQuESTPeakOutput <-
 function(peakNames) {
   process.name <- function(aname) {
-    ##browser()
     nmfull <- unlist(strsplit(aname, split="~"))
     nmout.1 <- nmfull[c(1,2,3)]
     nmout.2 <- unlist(strsplit(nmfull[9], split="-"))

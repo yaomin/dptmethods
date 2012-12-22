@@ -5,7 +5,7 @@ function(wins.sel, events.comp) {
   # NA 1
   # 1  1
   ## use NA for elements that are free of change
-  ##browser()
+
   events.comp <- as.matrix(events.comp)
   events <- attr(wins.sel, "event")
   comp.list <- NULL

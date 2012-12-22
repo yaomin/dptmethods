@@ -1,10 +1,8 @@
 attach.TsiteOLP <-
 function(sites.chr, Tsites) {
-  
   stopifnot(length(unique(sites.chr$chr)) ==1)
   chrom <- as.character(unique(sites.chr$chr))
   cat(chrom, "\n")
-  ##browser()
   overlap <- vector("logical", nrow(sites.chr))
   whichtsite <- overlapProp.tsite <- vector("numeric", nrow(sites.chr))
   overlapProp.site<- overlapSize <- vector("numeric", nrow(sites.chr))
@@ -35,7 +33,7 @@ function(sites.chr, Tsites) {
     tsite.olp <- tsites[new.olp.noNA$X1,]
     ##sites.olp <- sites[olp[olp$overlap, "where"],]
     sites.olp <- sites[new.olp.noNA$X2,]
-    ##browser()
+   
     
     ##overlap[olp.noNA$where] <- T
     overlap[new.olp.noNA$X2] <- T

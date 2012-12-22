@@ -1,6 +1,6 @@
 normalize.pmeans <-
 function(count, countab, bg.correct=F, out.int=F) {
-  ##browser()
+
   cnt.ex <- extend.tbs(countab)
   cnt.norm <- norm.tbs(cnt.ex, bg.correct=bg.correct)
   norm.sig <- as.data.frame(sapply(seq(ncol(count)), function(i) normalize.signal(count[,i],

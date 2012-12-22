@@ -1,7 +1,6 @@
 gen.poi <-
 function(poi.data, sizes, win.size=100)
 { ## generate the positions
-  ##browser()
   pois.start <- sample(poi.data,length(sizes))
   pois.end <- pois.start+sizes
   R1 <- cbind(pois.start, pois.end)

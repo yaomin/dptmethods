@@ -1,12 +1,12 @@
 #' @export
 events.score <-
 function(res, 
-                         events.res, 
-                         rownames, 
-                         sample.label, 
-                         which.score=2, 
-                         npart=10, 
-                         para.mode=2) {
+         events.res, 
+         rownames, 
+         sample.label, 
+         which.score=2, 
+         npart=10, 
+         para.mode=2) {
   ## so called event probability
 
   if(length(which.score)>1) stop("Select only one number from 1-5!")
