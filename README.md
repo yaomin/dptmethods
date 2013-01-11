@@ -1,4 +1,4 @@
 dptmethods
 ==========
 
-R package provides support to dptscan software pipeline
+R package provides support to dptscan software pipeline.
