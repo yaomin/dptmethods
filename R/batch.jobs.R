@@ -17,7 +17,7 @@ function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90) {
           mcparallel(caller)
           dpt.syshold(waiting)
         }
-        .fl <- c(unlist(collect()))
+        .fl <- c(unlist(mccollect()))
         .failed.try <- c(.failed.try, .fl)
       }
       chrs <- .failed.try

@@ -1,5 +1,5 @@
-#' dptMethods
+#' dptmethods
 #' 
-#' @name dptMethods
+#' @name dptmethods
 #' @docType package
 NULL
