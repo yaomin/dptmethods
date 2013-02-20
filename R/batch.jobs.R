@@ -14,10 +14,10 @@ function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90) {
       for (i in unique(.jobs)) {
         .chrs <- chrs[.jobs==i]
         for (chr in .chrs){
-          mcparallel(caller)
+          multicore::mcparallel(caller)
           dpt.syshold(waiting)
         }
-        .fl <- c(unlist(mccollect()))
+        .fl <- c(unlist(multicore::collect()))
         .failed.try <- c(.failed.try, .fl)
       }
       chrs <- .failed.try
