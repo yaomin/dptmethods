@@ -5,7 +5,23 @@
 ## =============================================================================
 .dptworkflow <- expression({
   
-  dptws.initexpr <- expression({load(".RData")})#; .First()})
+  dptws.initexpr <- expression({
+    vflag <- F
+    require(MCMCpack,quietly=vflag)
+    require(snowfall,quietly=vflag)
+    require(nlme,quietly=vflag)
+    require(gmodels,quietly=vflag)
+    require(MASS,quietly=vflag)
+    require(plyr,quietly=vflag)
+    require(preprocessCore,quietly=vflag)
+    require(inline,quietly=vflag)
+    require(Rcpp,quietly=vflag)
+    require(IRanges,quietly=vflag)
+    require(Biostrings,quietly=vflag)
+    require(mmap,quietly=vflag)
+    require(qvalue, quietly=vflag)
+    require(dptmethods, quietly=vflag)
+    load(".RData")})
   dpt.options <- list(
                       ws = list(
                         ws.root = opt$ws.root,
@@ -119,75 +135,76 @@
   })
 
   call.mp <- expression({
-    .expr <- expression({
-      logfile <- file.path(dpt.options[[c('ws','log.path')]],
-                           paste(dpt.options[[c('logs','mixPoisson')]],chr,'log',sep="."))
-      logfile.con <- file(logfile, open="wt")
-      sink(logfile.con)
-      sink(logfile.con, type="message")
-      ##chr <- get.str.chr()
-      cat("read in data from Preprocess ...")
-      count.table <- get.mappedCountTab()
-      if(initfilter.TF) {
-        init.filter.cutoff <- get.initfilter.cutoff(count.table, 0.5)
-      } else {
-        init.filter.cutoff <- initfilter.cutoff
-      }
-      get.reads.fromJoinedSamples(get.wsoption.path("joinSample"),
-                                  chr,
-                                  threshold=init.filter.cutoff,
-                                  sample.select=sample.select)
-      cat("\tdone\n")
-      cat("mix-poisson deconvolution ...\n")
-      controls <- list(msize=6000, burnin=1000, thin=1);
-      priors.e <- list(d=c(0.3, 0.3, 0.3),
-                       lambda.prior=list(a=1, b=1/20),
-                       signal.prior=list(q=0.1,s=0.1))
+    .expr <- expression(
+        {
+          logfile <- file.path(dpt.options[[c('ws','log.path')]],
+                               paste(dpt.options[[c('logs','mixPoisson')]],chr,'log',sep="."))
+          logfile.con <- file(logfile, open="wt")
+          sink(logfile.con)
+          sink(logfile.con, type="message")
+          ##chr <- get.str.chr()
+          cat("read in data from Preprocess ...")
+          count.table <- get.mappedCountTab()
+          if(initfilter.TF) {
+            init.filter.cutoff <- get.initfilter.cutoff(count.table, 0.5)
+          } else {
+            init.filter.cutoff <- initfilter.cutoff
+          }
+          get.reads.fromJoinedSamples(get.wsoption.path("joinSample"),
+                                      chr,
+                                      threshold=init.filter.cutoff,
+                                      sample.select=sample.select)
+          cat("\tdone\n")
+          cat("mix-poisson deconvolution ...\n")
+          controls <- list(msize=6000, burnin=1000, thin=1);
+          priors.e <- list(d=c(0.3, 0.3, 0.3),
+                           lambda.prior=list(a=1, b=1/20),
+                           signal.prior=list(q=0.1,s=0.1))
+          
+          ncore <- min(ncore, length(s.cols))
+          
+          para.mixPois_eWin <- function(i.smp, priors, controls) {
+            cat("start sample", i.smp, "\n")
+            y1 <- reads[, i.smp+1]
+            
+            ## Run 2 (w/o initials)
+            n <- length(y1)
+            p0<- c(sum(y1==0)/n, sum(y1>0&y1<=4)/n, sum(y1>4)/n)
+            lm0 <- c(mean(y1[which(y1>0&y1<=4)]), mean(y1[which(y1>4)]))
+            signal0 <- y1*(1+1/25)
+            
+            initials.e <- list(p=p0, lambda=lm0[1], signal=signal0, r=1/25)
+            res.i <- mixPois_eWin(y=y1,
+                                  initials=initials.e,
+                                  para.priors=priors,
+                                  controls=controls)
+            return(res.i)
+          }
       
-      ncore <- min(ncore, length(s.cols))
-      
-      para.mixPois_eWin <- function(i.smp, priors, controls) {
-        cat("start sample", i.smp, "\n")
-        y1 <- reads[, i.smp+1]
-        
-        ## Run 2 (w/o initials)
-        n <- length(y1)
-        p0<- c(sum(y1==0)/n, sum(y1>0&y1<=4)/n, sum(y1>4)/n)
-        lm0 <- c(mean(y1[which(y1>0&y1<=4)]), mean(y1[which(y1>4)]))
-        signal0 <- y1*(1+1/25)
-        
-        initials.e <- list(p=p0, lambda=lm0[1], signal=signal0, r=1/25)
-        res.i <- mixPois_eWin(y=y1,
-                              initials=initials.e,
-                              para.priors=priors,
-                              controls=controls)
-        return(res.i)
-      }
-      
-      start.para(ncore, dptws.initexpr)
-      sfExport(list=ls())
-      
-      res <- sfLapply(seq(along=s.cols),
-                      para.mixPois_eWin,
-                      priors=priors.e,
-                      controls=controls)
-      res <- res[!unlist(lapply(res, is.null))]
-      
-      stop.para()
-      cat("mix-poisson deconvolution done\n")
-      cat("cross-sample normalization based on posterior mean estimates ...") 
-      compute.pmeans(res, reads.poi, reads.names, count.table)
-      cat("\tdone\n")
-      cat("save results to workspace ...")
-      save.ws(ws="mixPoisson",
-              what=c("chr", "res",
-                "reads","reads.poi","reads.names",
-                "pmeans","pmeans.norm","pmeans.bgnorm.norm","pmeans.bgcorrect.norm"),
-              chr=chr)
-      cat("\tdone\n")
-      sink(type="message")
-      sink()
-    })
+          start.para(ncore, dptws.initexpr)
+          sfExport(list=ls())
+          
+          res <- sfLapply(seq(along=s.cols),
+                          para.mixPois_eWin,
+                          priors=priors.e,
+                          controls=controls)
+          res <- res[!unlist(lapply(res, is.null))]
+          
+          stop.para()
+          cat("mix-poisson deconvolution done\n")
+          cat("cross-sample normalization based on posterior mean estimates ...") 
+          compute.pmeans(res, reads.poi, reads.names, count.table)
+          cat("\tdone\n")
+          cat("save results to workspace ...")
+          save.ws(ws="mixPoisson",
+                  what=c("chr", "res",
+                    "reads","reads.poi","reads.names",
+                    "pmeans","pmeans.norm","pmeans.bgnorm.norm","pmeans.bgcorrect.norm"),
+                  chr=chr)
+          cat("\tdone\n")
+          sink(type="message")
+          sink()
+        })
     cat("starting mixPoi:", chr, "\n")
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
