@@ -142,7 +142,7 @@
           logfile.con <- file(logfile, open="wt")
           sink(logfile.con)
           sink(logfile.con, type="message")
-          ##chr <- get.str.chr()
+##          chr <- get.str.chr()
           cat("read in data from Preprocess ...")
           count.table <- get.mappedCountTab()
           if(initfilter.TF) {
@@ -206,7 +206,8 @@
           sink()
         })
     cat("starting mixPoi:", chr, "\n")
-    .trym <- try(eval(.expr), TRUE)
+    .init <- try(eval(dptws.initexpr), FALSE)
+    .trym <- try(eval(.expr), FALSE)
     if(is(.trym, "try-error")) {
       sink(type="message")
       sink()
@@ -589,6 +590,6 @@
       return(NULL)
     }
   })
-                                        #return(list(call.js, call.mp, call.pr,call.dt, call.rp, call.methyl, dpt.options))
+  ##return(list(call.js, call.mp, call.pr,call.dt, call.rp, call.methyl, dpt.options))
 })
 
