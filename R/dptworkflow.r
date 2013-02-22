@@ -591,5 +591,47 @@
     }
   })
   ##return(list(call.js, call.mp, call.pr,call.dt, call.rp, call.methyl, dpt.options))
+  batch.jobs <- function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90, debug=T) {
+    if(debug) browser()
+    .failed <- NULL
+    ncore <- nc
+    if(!by.chr) {
+      .failed <- eval(caller)
+    } else {
+      .continue <- T
+      .ntry <- 1
+      while(.continue) {
+        if(.ntry>1) cat("try = ", .ntry, "\n")
+        .jobs <- (seq(along=chrs)-1)%/%nb
+        .failed.try <- NULL
+        for (i in unique(.jobs)) {
+          .chrs <- chrs[.jobs==i]
+          for (chr in .chrs){
+            multicore::mcparallel(caller)
+            dpt.syshold(waiting)
+          }
+          .fl <- c(unlist(multicore::collect()))
+          .failed.try <- c(.failed.try, .fl)
+        }
+        chrs <- .failed.try
+        .ntry <- .ntry+1
+        .continue <- (.ntry<=retry.n)&(length(.failed.try)>0)
+      }
+      .failed <- .failed.try
+    }
+    return(.failed)
+  }
+
+  dpt.syshold <- function(tm, verbose=F) {
+    t1 <- proc.time()
+    t.lag <- 0
+    while(t.lag<tm) {
+      system.time(for(i in 1:10000) x <- mean(rt(1000, df=4)))
+      t2 <- proc.time()
+      t.lag <- (t2-t1)[3]
+    }
+    if(verbose) cat("system waited for",t.lag,"sec\n")
+  }
+  
 })
 
