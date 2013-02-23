@@ -1,4 +1,4 @@
-dpt.syshold <-
+.dpt.syshold <-
 function(tm, verbose=F) {
   t1 <- proc.time()
   t.lag <- 0
