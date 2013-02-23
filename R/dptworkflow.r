@@ -591,7 +591,7 @@
     }
   })
   ##return(list(call.js, call.mp, call.pr,call.dt, call.rp, call.methyl, dpt.options))
-  batch.jobs <- function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90, debug=T) {
+  batch.jobs <- function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90, debug=F) {
     if(debug) browser()
     .failed <- NULL
     ncore <- nc
@@ -633,5 +633,61 @@
     if(verbose) cat("system waited for",t.lag,"sec\n")
   }
   
+  get.wsoption.path <-function(which=c("root",
+                                 "mixPoisson",
+                                 "pattRecog",
+                                 "diffTest",
+                                 "preprocess",
+                                 "joinSample",
+                                 "log",
+                                 "postprocess",
+                                 "report",
+                                 "type",
+                                 "analysis",
+                                 "src",
+                                 "tmp"),
+                               pos=-1)
+    {
+      which <- match.arg(which)
+      dpt.options <- get("dpt.options", pos=pos)
+      dpt.ws.options <- dpt.options[['ws']]
+      if(which == "root") dpt.ws.options$ws.root
+      else if(which %in% c("type","analysis")) dpt.ws.options$analysis.path
+      else if(which == "mixPoisson") dpt.ws.options$mixpos.path
+      else if(which == "pattRecog") dpt.ws.options$pattrecog.path
+      else if(which == "diffTest") dpt.ws.options$difftest.path
+      else if(which %in% c("preprocess","joinSample")) dpt.ws.options$preprocess.path
+      else if(which == "log") dpt.ws.options$log.path
+      else if(which %in% c("postprocess","report")) dpt.ws.options$postprocess.path
+      else if(which == "src") dpt.ws.options$src.path
+      else if(which =="tmp") dpt.ws.options$tmp.path
+      else stop("Not a valid option: ", which)
+    }
+
+  create.ws.dir <-function(which=c("root",
+                             "mixPoisson",
+                             "pattRecog",
+                             "diffTest",
+                             "preprocess",
+                             "log",
+                             "report",
+                             "src",
+                             "tmp"),
+                           pos=-1
+                           )
+    {
+      which <- match.arg(which)
+      .dir <- get.wsoption.path(which, pos=pos)
+      if(!file_test("-d", .dir)) {
+        .create.yes <- dir.create(.dir)
+        if(!.create.yes) stop(paste("Can not create",
+                                    .dir,
+                                    "for dpt analyses!",
+                                    sep=" "))
+      } else {
+        cat(.dir, "exists!","\n")
+      }
+    }
+
 })
 
