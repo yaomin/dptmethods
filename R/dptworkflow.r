@@ -329,6 +329,7 @@
       sink()
     })
     cat("starting pattRecog:", chr, "\n")
+    .init <- try(eval(dptws.initexpr), FALSE)
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
       sink(type="message")
@@ -404,6 +405,7 @@
       sink()
     })
     cat("starting diffTest:",chr, "\n")
+    .init <- try(eval(dptws.initexpr), FALSE)
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
       sink(type="message")
@@ -447,6 +449,7 @@
       sink()
     })
     cat("starting report","\n")
+    .init <- try(eval(dptws.initexpr), FALSE)
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
       sink(type="message")
@@ -578,6 +581,7 @@
       sink()
     })
     cat("starting diffMethyl analysis ...", "\n")
+    .init <- try(eval(dptws.initexpr), FALSE)
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
       sink(type="message")
