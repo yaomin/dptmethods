@@ -14,7 +14,7 @@ import(qvalue)
 import(methods)
 
 export(append.effectsign)
-export(batch.jobs)
+##export(batch.jobs)
 export(calculate.gmeans)
 export(choose.events.cutoff)
 export(cleanup.on.gmeans)
