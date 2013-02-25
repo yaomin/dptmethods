@@ -1,5 +1,5 @@
 .batch.jobs <-
-function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90, debug=T) {
+function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90, debug=F) {
   if(debug) browser()
   .failed <- NULL
   ncore <- nc
@@ -29,3 +29,4 @@ function(caller, nc, nb, chrs=NULL, by.chr=T, retry.n=3, waiting=90, debug=T) {
   }
   return(.failed)
 }
+

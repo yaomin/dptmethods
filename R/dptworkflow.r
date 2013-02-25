@@ -7,6 +7,7 @@
   
   dptws.initexpr <- expression({
     vflag <- F
+    require(methods)
     require(MCMCpack,quietly=vflag)
     require(snowfall,quietly=vflag)
     require(nlme,quietly=vflag)
