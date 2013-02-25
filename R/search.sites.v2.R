@@ -1,3 +1,4 @@
+#' @export
 search.sites.v2 <-
 function(wins.sel,
                             events.test=NULL,
