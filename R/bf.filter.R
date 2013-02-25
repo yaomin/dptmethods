@@ -1,5 +1,4 @@
 #  @export
-
 bf.filter <-
 function(e.res,
          sites.js.ex,

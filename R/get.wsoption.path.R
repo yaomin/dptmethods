@@ -1,5 +1,5 @@
 #' @export
-get.wsoption.path <-
+.get.wsoption.path <-
 function(which=c("root",
                  "mixPoisson",
                  "pattRecog",

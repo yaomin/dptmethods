@@ -1,3 +1,4 @@
+#' @export
 rangedSites <-
 function(sites, winsize) {
   

@@ -1,3 +1,4 @@
+#' @export
 pattern.events <-
 function(wins.sel, events.comp) {
   ## events.comp

@@ -1,3 +1,4 @@
+#' @export
 clean.nonuniqPatt <-
 function(sitelist) {
   l.n <- length(sitelist)

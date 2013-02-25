@@ -1,3 +1,4 @@
+#' @export
 match.pattern.win <-
 function(wins.sel, sites) {
   pattern.win <- rep("", nrow(sites))

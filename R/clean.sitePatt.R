@@ -1,3 +1,4 @@
+#' @export
 clean.sitePatt <-
 function(patt, sites, e.TF, cutoff=0.5) {
   ### sites is IRanges
