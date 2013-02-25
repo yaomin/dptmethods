@@ -1,3 +1,4 @@
+#' @export
 load.mixPoiData <-
 function(from, chr, pos=-1, pos.out=parent.frame()) {
   if(missing(chr)) chr <- get('chr', pos=pos)
