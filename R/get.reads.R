@@ -1,3 +1,4 @@
+#' @export
 get.reads <-
 function(reads, start, end) {
   idx.s <- as.numeric(reads$poi) >= as.numeric(start)
