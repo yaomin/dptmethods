@@ -21,8 +21,10 @@
     require(Biostrings,quietly=vflag)
     require(mmap,quietly=vflag)
     require(qvalue, quietly=vflag)
+    require(ShortRead)
     require(dptmethods, quietly=vflag)
     load(".RData")})
+  
   dpt.options <- list(
                       ws = list(
                         ws.root = opt$ws.root,
@@ -182,16 +184,17 @@
             return(res.i)
           }
       
-          start.para(ncore, dptws.initexpr)
-          sfExport(list=ls())
+          cl <- start.para(ncore, dptws.initexpr)
+          clusterExport(cl, varlist=ls())
           
-          res <- sfLapply(seq(along=s.cols),
-                          para.mixPois_eWin,
-                          priors=priors.e,
-                          controls=controls)
+          res <- parLapply(cl,
+                           seq(along=s.cols),
+                           para.mixPois_eWin,
+                           priors=priors.e,
+                           controls=controls)
           res <- res[!unlist(lapply(res, is.null))]
           
-          stop.para()
+          stop.para(cl)
           cat("mix-poisson deconvolution done\n")
           cat("cross-sample normalization based on posterior mean estimates ...") 
           compute.pmeans(res, reads.poi, reads.names, count.table)
@@ -262,7 +265,8 @@
                                     events.cutoff.method)
       
       wins.sel <- win.select(e.res, e.cut,
-                             exclude.zeroPattern=T, zeroPattern.cutoff=events.cut+cleanZeroPattern.cutoff)
+                             exclude.zeroPattern=T,
+                             zeroPattern.cutoff=events.cut+cleanZeroPattern.cutoff)
       cat("scan sites ...\n")
       sites <- search.sites.v2(wins.sel, events.wins, chr, winsize,
                                search.sites.cut, cut.1st=search.sites.cut.2)
@@ -612,10 +616,10 @@
         for (i in unique(.jobs)) {
           .chrs <- chrs[.jobs==i]
           for (chr in .chrs){
-            multicore::mcparallel(caller)
+            mcparallel(caller)
             dpt.syshold(waiting)
           }
-          .fl <- c(unlist(multicore::collect()))
+          .fl <- c(unlist(mccollect()))
           .failed.try <- c(.failed.try, .fl)
         }
         chrs <- .failed.try
@@ -692,6 +696,34 @@
       } else {
         cat(.dir, "exists!","\n")
       }
+    }
+
+  get.ws.path <- function(which=c("root",
+                            "mixPoisson",
+                            "pattRecog",
+                            "diffTest",
+                            "joinSample",
+                            "log",
+                            "report",
+                            "analysis",
+                            "src",
+                            "tmp"),
+                          pos=-1
+                          ## those which options are very specificly matched to tasks
+                          )
+    {
+      which <- match.arg(which)
+      dpt.options <- get("dpt.options", pos=pos)
+      if(file.exists(get.wsoption.path("root", pos=pos))) {
+        ws.root <- get.wsoption.path("root", pos=pos)
+      } else if(file.exists(paste("..",get.wsoption.path("root", pos=pos), sep="/"))) {
+        ws.root <- paste("..",get.wsoption.path("root",pos=pos), sep="/")
+      } else {
+        ws.root <- file.path(dpt.options[[c("ws","out.path")]],
+                             get.wsoption.path("root", pos=pos))
+      }
+      if(which == "root") ws.root
+      else file.path(ws.root, get.wsoption.path(which, pos=pos))
     }
 
 })

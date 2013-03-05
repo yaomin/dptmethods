@@ -1,6 +1,10 @@
 start.para <-
-function(ncore, initExpr,...) {
-  sfInit(parallel=TRUE, cpus=ncore, nostart=if.parallel(ncore),...)
-  sfExport("initExpr")
-  .dump <- sfClusterEval(eval(initExpr))
+function(ncore, initExpr, type="PSOCK", ...) {
+  if(ncore>1) cl <- makeCluster(getOption("cl.cores",ncore),
+                                type=type,
+                                ...)
+  else cl <- NULL
+  .dump <- clusterEvalQ(cl, initExpr)
+  ##.dump <- sfClusterEval(eval(initExpr))
+  cl
 }

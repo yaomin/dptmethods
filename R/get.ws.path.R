@@ -1,7 +1,7 @@
 #' @export
-get.ws.path <-
+.get.ws.path <-
 function(which=c("root",
-                          "mixPoisson",
+           "mixPoisson",
                           "pattRecog",
                           "diffTest",
                           "joinSample",

@@ -1,4 +1,4 @@
 stop.para <-
-function(...) {
-  sfStop(...)
+function(cl) {
+  stopCluster(cl)
 }
