@@ -1,5 +1,5 @@
 import(MCMCpack)
-import(snowfall)
+import(parallel)
 import(nlme)
 import(gmodels)
 import(MASS)
