@@ -146,7 +146,7 @@
           sink(logfile.con)
           sink(logfile.con, type="message")
 ##          chr <- get.str.chr()
-          cat("read in data from Preprocess ...")
+          cat("readin data from Preprocess ...")
           count.table <- get.mappedCountTab()
           if(initfilter.TF) {
             init.filter.cutoff <- get.initfilter.cutoff(count.table, 0.5)
