@@ -9,7 +9,7 @@
     vflag <- F
     require(methods)
     require(MCMCpack,quietly=vflag)
-    require(snowfall,quietly=vflag)
+    require(parallel,quietly=vflag)
     require(nlme,quietly=vflag)
     require(gmodels,quietly=vflag)
     require(MASS,quietly=vflag)
