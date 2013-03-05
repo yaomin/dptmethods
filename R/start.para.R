@@ -4,7 +4,7 @@ function(ncore, varlist, type="PSOCK", ...) {
                                 type=type,
                                 ...)
   else cl <- NULL
-  clusterExport(cl, varlist)
+  clusterExport(cl, varlist=varlist)
   .dump <- clusterEvalQ(cl, eval(dptws.initexpr))
   ##.dump <- sfClusterEval(eval(initExpr))
   cl

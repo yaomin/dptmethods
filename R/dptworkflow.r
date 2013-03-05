@@ -184,8 +184,8 @@
             return(res.i)
           }
       
-          cl <- start.para(ncore, dptws.initexpr)
-          clusterExport(cl, varlist=ls())
+          cl <- start.para(ncore, varlist=ls())
+          #clusterExport(cl, varlist=ls())
           
           res <- parLapply(cl,
                            seq(along=s.cols),
