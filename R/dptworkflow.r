@@ -562,10 +562,12 @@
         reads.chr.df 
       }
       
-      cl <- start.para(ncore, varlist=c('dptws.initexpr','chrs','test.regions'))
+      cl <- start.para(ncore, varlist=c('dptws.initexpr'))
+      envir.this <- environment()
+      clusterExport(cl, varlist=c('chrs','test.regions'), envir=envir.this)
       ##sfExport(list=c('chrs','test.regions'))
       reads.report.list <- parLapply(cl, seq(chrs), attach.reads.worker)
-      stop.para()
+      stop.para(cl)
       
       reads.report.df <- select.reads(ldply(reads.report.list, function(x) x))
       reads.report <- cbind(chr=sapply(as.character(reads.report.df$s.id),
