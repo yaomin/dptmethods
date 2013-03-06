@@ -391,8 +391,9 @@
       
       ## Computation
       ##-- Parallel start
-      start.para(ncore, dptws.initexpr)
-      T.results <- process.diffTest(sites.js.ex,
+      cl <- start.para(ncore, varlist="dptws.initexpr")
+      T.results <- process.diffTest(cl,
+                                    sites.js.ex,
                                     events.wins,
                                     events.ctr,
                                     testmode.rep,
@@ -404,7 +405,7 @@
       attach(T.results)
       
       ##-- Parallel stop
-      stop.para()
+      stop.para(cl)
       ##--
       
       ##. Save workspace
@@ -561,9 +562,9 @@
         reads.chr.df 
       }
       
-      start.para(ncore, dptws.initexpr)
-      sfExport(list=c('chrs','test.regions'))
-      reads.report.list <- sfLapply(seq(chrs), attach.reads.worker)
+      cl <- start.para(ncore, varlist=c('dptws.initexpr','chrs','test.regions'))
+      ##sfExport(list=c('chrs','test.regions'))
+      reads.report.list <- parLapply(cl, seq(chrs), attach.reads.worker)
       stop.para()
       
       reads.report.df <- select.reads(ldply(reads.report.list, function(x) x))

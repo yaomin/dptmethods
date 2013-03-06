@@ -1,5 +1,5 @@
 test.effect <-
-function(wins, psig, vars, group.label,
+function(cl,wins, psig, vars, group.label,
                         n.core,
                         contr= cbind(c(0,1,1),c(0,1,-1)),
                         src.file="")
@@ -82,7 +82,7 @@ function(wins, psig, vars, group.label,
     res.i
   }
   ##res <- unlist(sfLapply(seq(n.core), test.effect.worker.group), recursive=F)
-  res.list <- sfLapply(seq(n.core), test.effect.worker.group)
+  res.list <- parLapply(cl,seq(n.core), test.effect.worker.group)
 
   ## take the 1st non-null for names and ncols
   res.names <- NULL
