@@ -67,7 +67,9 @@ function(cl,wins, psig, vars, group.label, rep.label,
   if(n.core>1) n.wins.cut <- as.numeric(cut(seq(n.wins), n.core)) else n.wins.cut <- rep(1, n.wins)
   n.wins.seq <- seq(n.wins)
   ##sfExportAll(except=c( "globalNoExport" ))
-  sfExport(list=ls())
+  envir.this <- environment()
+  varlist <- ls()
+  clusterExport(cl, varlist=varlist, envir=envir.this)
   ##sfSource(src.file)
   ## sfExport("wins", "psig", "vars", "contr", "n.core", "n.wins.cut","n.wins.seq",
   ##          "unique.wins","n.wins","test.effect.worker","group.label","rep.label")

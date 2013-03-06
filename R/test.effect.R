@@ -62,10 +62,13 @@ function(cl,wins, psig, vars, group.label,
   }
   if(n.core>1) n.wins.cut <- as.numeric(cut(seq(n.wins), n.core)) else n.wins.cut <- rep(1, n.wins)
   n.wins.seq <- seq(n.wins)
-
-  sfExport("wins", "psig", "vars", "contr", "n.core", "n.wins.cut","n.wins.seq",
-           "unique.wins","n.wins")
-
+  envir.this <- environment()
+  clusterExport(cl,
+                varlist=c("wins", "psig", "vars",
+                  "contr", "n.core", "n.wins.cut",
+                  "n.wins.seq", "unique.wins","n.wins"),
+                envir=envir.this)
+  
   ##sfSource()
   test.effect.worker.group <- function(i) {
     ## cat(i,"\n")
