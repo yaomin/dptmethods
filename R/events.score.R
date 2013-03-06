@@ -1,8 +1,9 @@
 #' @export
 events.score <-
-function(res, 
+function(cl,
+         res, 
          events.res, 
-         rownames, 
+         rownames,
          sample.label, 
          which.score=2, 
          npart=10, 
@@ -24,6 +25,7 @@ function(res,
     cat("pattern:",paste(patts[,i],sep="",collapse=""))
     .this <- event.prob(w3.res, 
                         sample.label,
+                        cl,
                         event=patts[,i],
                         p=p3, 
                         which.score=which.score, 

@@ -184,7 +184,8 @@
             return(res.i)
           }
       
-          cl <- start.para(ncore, varlist=ls())
+          ##cl <- start.para(ncore, varlist=ls())
+          cl <- start.para(ncore, varlist="dptws.initexpr")
           #clusterExport(cl, varlist=ls())
           
           res <- parLapply(cl,
@@ -244,7 +245,7 @@
         pmeans.norm.str <- NULL
       }
       if(!is.null(pmeans.norm.str)) {
-        get.ws(ws="mixPoisson",what=c("pmeans", "res", "reads.poi",pmeans.norm.str ))
+        get.ws(ws="mixPoisson",what=c("pmeans", "res", "reads.poi", pmeans.norm.str ))
         assign("pmeans.norm", get(pmeans.norm.str))
       } else {
         get.ws(ws="mixPoisson",what=c("pmeans", "res", "reads.poi"))
@@ -252,9 +253,13 @@
       }
       
       ## Parallel process
-      start.para(ncore, dptws.initexpr)
+      cl <- start.para(ncore, varlist="dptws.initexpr")
       cat("calculate event scores ...\n")
-      e.res <- events.score(res, events.res, reads.poi, sample.label,
+      e.res <- events.score(cl,
+                            res,
+                            events.res,
+                            reads.poi,
+                            sample.label,
                             npart=ncore,
                             which.score=which.escore,
                             para.mode=2)
@@ -268,7 +273,9 @@
                              exclude.zeroPattern=T,
                              zeroPattern.cutoff=events.cut+cleanZeroPattern.cutoff)
       cat("scan sites ...\n")
-      sites <- search.sites.v2(wins.sel, events.wins, chr, winsize,
+      sites <- search.sites.v2(cl,
+                               wins.sel,
+                               events.wins, chr, winsize,
                                search.sites.cut, cut.1st=search.sites.cut.2)
       
       ## Joining, shearing, and cleaning
@@ -286,13 +293,14 @@
       
       e.TF <- ranged.e.TF(e.res, winsize, cutoff=events.cut)
       
-      sites.cleaned.1 <- sfLapply(names(sites.j),
-                                  clean.sitePatt,
-                                  sites=sites.j,
-                                  e.TF=e.TF,
-                                  cutoff=cleansite.cutoff)
+      sites.cleaned.1 <- parLapply(cl,
+                                   names(sites.j),
+                                   clean.sitePatt,
+                                   sites=sites.j,
+                                   e.TF=e.TF,
+                                   cutoff=cleansite.cutoff)
       
-      stop.para()
+      stop.para(cl)
       
       names(sites.cleaned.1) <- names(sites.j)
       cat("cleanup sites with non-unique pattern ...\n")

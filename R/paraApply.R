@@ -1,5 +1,5 @@
 paraApply <-
-function(x, margin, fun, ...,mode=real64(),mode.size=8, tmp.dir=".tmp",ncore=NULL) {
+function(cl, x, margin, fun, ...,mode=real64(),mode.size=8, tmp.dir=".tmp",ncore=NULL) {
   ## Parallel version with ncore blocks on the input matrix x
   ## Memory efficient with mmap
 
@@ -51,7 +51,8 @@ function(x, margin, fun, ...,mode=real64(),mode.size=8, tmp.dir=".tmp",ncore=NUL
     ##cat(str(ovec))
     ovec
   }
-  out.l <- sfSapply(seq(ncore),
+  out.l <- parSapply(cl,
+                    seq(ncore),
                     .worker,
                     margin=margin,
                     .file.mmap=tmp,

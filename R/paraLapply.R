@@ -1,5 +1,5 @@
 paraLapply <-
-function(x, fun, ..., tmp.dir=".tmp", ncore=NULL) {
+function(cl, x, fun, ..., tmp.dir=".tmp", ncore=NULL) {
   ## Parallel version with ncore blocks on the input matrix x
   ## Higher throughput with shared data file
   if(is.null(ncore)) ncore <- sfCpus()
@@ -23,7 +23,8 @@ function(x, fun, ..., tmp.dir=".tmp", ncore=NULL) {
     ovec <- lapply(x[seq(.len)+.offset,], fun,...)
     ovec
   }
-  out.l <- sfSapply(seq(ncore),
+  out.l <- parSapply(cl,
+                    seq(ncore),
                     .worker,
                     load.file=tmp,
                     ...)

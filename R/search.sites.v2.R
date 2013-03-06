@@ -1,11 +1,12 @@
 #' @export
 search.sites.v2 <-
-function(wins.sel,
-                            events.test=NULL,
-                            chr,
-                            win.size=100,
-                            den.cutoff = c(1e5, 5e4),
-                            cut.1st=c(3000,2000))
+function(cl,
+         wins.sel,
+         events.test=NULL,
+         chr,
+         win.size=100,
+         den.cutoff = c(1e5, 5e4),
+         cut.1st=c(3000,2000))
 {
 ### omit empty wins.sel
   noemp <- sapply(wins.sel, function(x) nrow(x)>0)
@@ -32,9 +33,10 @@ function(wins.sel,
   else if(nrow(den.cutoff) != length(for.seq)) stop("cutoff dim does not match event dim!")
 
   sfExport("wins.sel","events.test","chr","win.size","den.cutoff","cut.1st")
-  wins.sel.cuts <- sfSapply(for.seq,
-                            function(x) cut.wins(wins.sel[[x]], den.cutoff[x,1],cut.1st[1],cut.1st[2]),
-                            simplify=F)
+  wins.sel.cuts <- parSapply(cl,
+                             for.seq,
+                             function(x) cut.wins(wins.sel[[x]], den.cutoff[x,1],cut.1st[1],cut.1st[2]),
+                             simplify=F)
   wins.sel.cuts.size <- sapply(wins.sel.cuts,
                                seq,
                                simplify=F)
@@ -60,7 +62,7 @@ function(wins.sel,
     cbind(chr.i, patt.i, sites.i)
   }
   
-  out.list <- sfClusterApplyLB(idx.list, process.search)
+  out.list <- clusterApplyLB(cl, idx.list, process.search)
   out <- NULL
   for (i in seq(along=out.list)) {
     out <- rbind(out, out.list[[i]])
