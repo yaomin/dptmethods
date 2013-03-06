@@ -1,6 +1,6 @@
 #' @export
 process.diffTest <-
-function(sites.js.ex, events.wins, events.ctr, testmode.rep,
+function(cl,sites.js.ex, events.wins, events.ctr, testmode.rep,
                              pmeans.norm, pmeans.var,
                              ncore,
                              sample.label,
@@ -16,7 +16,8 @@ function(sites.js.ex, events.wins, events.ctr, testmode.rep,
       wins.test[[i]] <- list()
       for(j in seq(length(events.ctr.matched[[i]]))) {
         cat(as.character(patts[i]), "\t", j, "\n")
-        wins.test[[i]][[j]] <- test.effect.rep(subset(sites.js.ex, subset=pattern==patts[i]),
+        wins.test[[i]][[j]] <- test.effect.rep(cl,
+                                               subset(sites.js.ex, subset=pattern==patts[i]),
                                                pmeans.norm,
                                                pmeans.var,
                                                contr= events.ctr.matched[[i]][[j]],
@@ -32,7 +33,8 @@ function(sites.js.ex, events.wins, events.ctr, testmode.rep,
       wins.test[[i]] <- list()
       for(j in seq(length(events.ctr.matched[[i]]))) {
         cat(as.character(patts[i]), "\t", j, "\n")
-        wins.test[[i]][[j]] <- test.effect(subset(sites.js.ex, subset=pattern==patts[i]),
+        wins.test[[i]][[j]] <- test.effect(cl,
+                                           subset(sites.js.ex, subset=pattern==patts[i]),
                                            pmeans.norm,
                                            pmeans.var,
                                            contr= events.ctr.matched[[i]][[j]],

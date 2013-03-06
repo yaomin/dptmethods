@@ -32,10 +32,12 @@ function(cl,
                                                      ncol=2)
   else if(nrow(den.cutoff) != length(for.seq)) stop("cutoff dim does not match event dim!")
 
+  envir.this <- environment()
+
   clusterExport(cl, 
                 varlist=c("wins.sel","events.test","chr",
                           "win.size","den.cutoff","cut.1st"),
-                envir=parent.frame())
+                envir=envir.this)
   wins.sel.cuts <- parSapply(cl,
                              for.seq,
                              function(x) cut.wins(wins.sel[[x]], den.cutoff[x,1],cut.1st[1],cut.1st[2]),
