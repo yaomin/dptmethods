@@ -6,7 +6,7 @@
 .dptworkflow <- expression({
   
   dptws.initexpr <- expression({
-    vflag <- F
+    vflag <- T
     require(methods)
     require(MCMCpack,quietly=vflag)
     require(parallel,quietly=vflag)
@@ -21,7 +21,7 @@
     require(Biostrings,quietly=vflag)
     require(mmap,quietly=vflag)
     require(qvalue, quietly=vflag)
-    require(ShortRead)
+    require(ShortRead, quietly=vflag)
     require(dptmethods, quietly=vflag)
     load(".RData")})
   
@@ -52,7 +52,8 @@
                       )
   dpt.options$logs <- dpt.options$output
   if(opt$verbose>0) print(dpt.options)
-## logs with files named after tasks in output
+
+  ## logs with files named after tasks in output
                     
 #get.src <- function(string, base, ws.options){
 #
@@ -119,20 +120,55 @@
       logfile.con <- file(logfile, open="wt")
       sink(logfile.con)
       sink(logfile.con, type="message")
-      merge.samples(file.path(get.ws.path("root"), ".."), mappedFiles)
+      ##merge.samples(file.path(get.ws.path("root"), ".."), mappedFiles)
+      bfs <- file.path(file.path(get.ws.path("root"), ".."), mappedFiles)
+      bcvrg.out <- file.path(get.ws.path("joinSample"), "bcvrg.RData")
+
+      bfs.info <- scanBamFiles(bfs)
+      chrlens <-bfs.info$chrlens
+
+      bfs.cvrg <- para.bam2coverage(files=bfs.info$files,
+                                    ncore=ncore,
+                                    chrlens=chrlens,
+                                    ext=read.extension-read.length,
+                                    coords="leftmost")
+      bcvrg.out <- file.path(get.ws.path("joinSample"), "bcvrg.RData")
+
+      bcvrg <- para.binCoverage(get.data.bfscvrg(bfs.cvrg), ncore, winsize)
+      
+      if(!use.FPKM) {
+        bcvrg.rd <- bcvrg.DFList2RD(process.bcvrg(bcvrg, winsize, ncore),
+                                    chrlens)
+      } else {
+        bcvrg.rd <- bcvrg.DFList2RD(process.bcvrg(fpkm.bcvrg(bcvrg,
+                                                             get.metadata.bfscvrg(bfs.cvrg),
+                                                             1000,
+                                                             1e6),
+                                                  winsize,
+                                                  ncore),
+                                    chrlens)
+      }
+
+      save(read.extension, read.length,
+           bfs.info, bfs.cvrg,
+           bcvrg, bcvrg.rd,
+           file=bcvrg.out)
+      
+      io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample")      
+      
       sink(type="message")
       sink()
     })
-    cat("starting joinSamples", "\n")
+    cat("starting preprocessing", "\n")
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
       sink(type="message")
       sink()
-      cat("error in joingSamples", "\n")
+      cat("error in preprocessing", "\n")
       if(opt$verbose>0) cat(.trym, "\n")
       return("failed")
     } else {
-      cat("finishing joingSamples", "\n")
+      cat("finishing preprocessing", "\n")
       return(NULL)
     }
   })
