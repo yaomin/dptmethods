@@ -53,36 +53,7 @@
   dpt.options$logs <- dpt.options$output
   if(opt$verbose>0) print(dpt.options)
 
-  ## logs with files named after tasks in output
-                    
-#get.src <- function(string, base, ws.options){
-#
-#  if(!missing(base)) {
-#    source(file.path(base, string), echo=F)
-#  } else {
-#    if(file.exists(file.path(ws.options$src.path,
-#                             string))){
-#      source(file.path(ws.options$src.path,
-#                       string),
-#             echo=F)
-#    } else if(file.exists(file.path(ws.options$ws.root,
-#                                    ws.options$src.path,
-#                                    string))) {
-#      source(file.path(ws.options$ws.root,
-#                       ws.options$src.path,
-#                       string), echo=F)
-#    } else {stop("Can't allocate the DPT file")}
-#  }
-#}
-
-
 ###... Load experiment configuration file
-#get.src(string="dpt.methods.R",
-#        base=file.path("http://dl.dropbox.com/u/10421230",
-#          "dpt",
-#          dpt.version),
-#        ws.options=dpt.options[['ws']]
-#        )  ## to be replaced by R package dptmethods
 
   ###... Samples
   sample.sheet <- opt$samplesheet
@@ -96,6 +67,7 @@
   subject.label <- subject.label.full[sample.select]
 
 ###... Load iDPT method parameters
+
 ## Probability mapping patterns
   events.res <- event.allPossiblePatterns(sample.label)
 ## Patterns to scan and identify
@@ -154,11 +126,12 @@
            bcvrg, bcvrg.rd,
            file=bcvrg.out)
       
-      io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample")      
+      io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))      
       
       sink(type="message")
       sink()
     })
+    
     cat("starting preprocessing", "\n")
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
