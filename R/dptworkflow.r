@@ -121,9 +121,12 @@
                                     chrlens)
       }
 
-      save(read.extension, read.length,
-           bfs.info, bfs.cvrg,
-           bcvrg, bcvrg.rd,
+      save(read.extension,
+           read.length,
+           bfs.info,
+           bfs.cvrg,
+           bcvrg,
+           bcvrg.rd,
            file=bcvrg.out)
       
       io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))      
@@ -133,6 +136,7 @@
     })
     
     cat("starting preprocessing", "\n")
+    .init <- try(eval(dptws.initexpr), FALSE)
     .trym <- try(eval(.expr), TRUE)
     if(is(.trym, "try-error")) {
       sink(type="message")
@@ -324,7 +328,8 @@
       
       if(!is.null(bf.cutoff)) {
         bf.filtered <- bf.filter(lapply(pattern.events(e.res, events.wins),c),
-                                 data.frame(sites.js, pattern.win=match.pattern.win(wins.sel, sites.js)),
+                                 data.frame(sites.js,
+                                            pattern.win=match.pattern.win(wins.sel, sites.js)),
                                  winsize,
                                  bf.cutoff,
                                  reads.poi,
