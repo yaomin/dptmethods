@@ -107,7 +107,7 @@
                                     chrlens=chrlens,
                                     ext=read.extension-read.length,
                                     coords="leftmost")
-      bcvrg.out <- file.path(get.ws.path("joinSample"), "bcvrg.RData")
+      ##bcvrg.out <- file.path(get.ws.path("joinSample"), "bcvrg.RData")
 
       bcvrg <- para.binCoverage(cl, get.data.bfscvrg(bfs.cvrg), ncore, winsize)
 
