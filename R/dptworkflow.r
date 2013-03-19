@@ -96,17 +96,22 @@
       bfs <- file.path(file.path(get.ws.path("root"), ".."), mappedFiles)
       bcvrg.out <- file.path(get.ws.path("joinSample"), "bcvrg.RData")
 
-      bfs.info <- scanBamFiles(bfs)
+      cl <- start.para(ncore, varlist="dptws.initexpr")
+      
+      bfs.info <- scanBamFiles(cl, bfs, ncore=ncore)
       chrlens <-bfs.info$chrlens
 
-      bfs.cvrg <- para.bam2coverage(files=bfs.info$files,
+      bfs.cvrg <- para.bam2coverage(cl,
+                                    files=bfs.info$files,
                                     ncore=ncore,
                                     chrlens=chrlens,
                                     ext=read.extension-read.length,
                                     coords="leftmost")
       bcvrg.out <- file.path(get.ws.path("joinSample"), "bcvrg.RData")
 
-      bcvrg <- para.binCoverage(get.data.bfscvrg(bfs.cvrg), ncore, winsize)
+      bcvrg <- para.binCoverage(cl, get.data.bfscvrg(bfs.cvrg), ncore, winsize)
+
+      stop.para(cl)
       
       if(!use.FPKM) {
         bcvrg.rd <- bcvrg.DFList2RD(process.bcvrg(bcvrg, winsize, ncore),

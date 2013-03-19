@@ -18,23 +18,23 @@ bamHeaders <- function(files) {
   list(files=goodF, headers=goodH)
 }
 
-para.countBam <- function(files, ncore=3,...) {
-  cl <- makeCluster(getOption("cl.cores",ncore), type="FORK")
+para.countBam <- function(cl, files, ncore=3,...) {
+  ##cl <- makeCluster(getOption("cl.cores",ncore), type="FORK")
   cnts <- parLapplyLB(cl,
                       files,
                       Rsamtools::countBam,
                       ...)
-  stopCluster(cl)
+  ##stopCluster(cl)
   names(cnts) <- as.character(sapply(cnts, function(x) x[['file']]))
   if(length(files)!=length(names(cnts))) warning("Not all input files read!")
   cnts
 }
 
-scanBamFiles <- function(files, ncore=3,...) {
+scanBamFiles <- function(cl, files, ncore=3,...) {
   bfs.headers <- bamHeaders(files)
   good.bfs <- bfs.headers$files
   chrlens <- bfs.headers$headers[[1]]$target
-  bfs.counts <- para.countBam(good.bfs, ncore=ncore)
+  bfs.counts <- para.countBam(cl,good.bfs, ncore=ncore)
   out <- list(headers=bfs.headers,
               files=good.bfs,
               chrlens=chrlens,
@@ -70,7 +70,8 @@ bam2coverage <- function(file,
        metadata=list(length=length(aligns), seqinfo=seqinfo(aligns)))
 }
 
-para.bam2coverage <- function(files,
+para.bam2coverage <- function(cl,
+                              files,
                               ncore=3,
                               use.names=T,
                               chrlens=NULL,
@@ -81,7 +82,7 @@ para.bam2coverage <- function(files,
                               shift=0L)
 {
 
-  cl <- makeCluster(getOption("cl.cores",ncore), type="FORK")
+##  cl <- makeCluster(getOption("cl.cores",ncore), type="FORK")
   cvl <- parLapplyLB(cl,
                      files,
                      bam2coverage,
@@ -91,7 +92,7 @@ para.bam2coverage <- function(files,
                      format=format,
                      flag=flag,
                      shift=shift)
-  stopCluster(cl)
+##  stopCluster(cl)
   if(use.names) names(cvl) <- basename(files)
   cvl
 }

@@ -21,13 +21,13 @@ binMeanVector <- function (vec, bsize)
   c(mean1, mean2)
 }
 
-para.binCoverage <- function(cvrg, ncore, bsize) {
-  cl <- makeCluster(getOption("cl.cores",ncore), type="FORK")
+para.binCoverage <- function(cl, cvrg, ncore, bsize) {
+##  cl <- makeCluster(getOption("cl.cores",ncore), type="FORK")
   bcvrg <- parLapplyLB(cl,
                        cvrg,
                        dpt.binCoverage,
                        bsize=bsize)
-  stopCluster(cl)
+##  stopCluster(cl)
   list(data=bcvrg, metadata=list(bsize=bsize))
 }
 
