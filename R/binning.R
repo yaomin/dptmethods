@@ -174,5 +174,39 @@ io.joinsample <- function(bcvrg.full.rd,
   }
 }
            
+io.binnedProfile <- function(bcvrg.full.rd,
+                             dir=".",
+                             select=NULL,
+                             chrs=NULL,
+                             offset=0,
+                             prefix="binnedProfile") {
+  
+  if(is.null(select)) select=grep("^s",
+                        colnames(bcvrg.full.rd),
+                        v=T)
+  ## if(is.null(chrs)) chrs <- names(bcvrg.full.rd)
+  ## renames <- c("poi", select[-1])
+  ## chrs <- names(bcvrg.full.rd)
+  cat("Output binnedProfile dataset:\n")
+  for(i in seq(select)) {
+    cat(select[i], "\t")
+    .this.df <- as.data.frame(bcvrg.full.rd[,i])
+    if(offset==0) {
+      .this.df[,2] <- .this.df[,2]-1L
+      .this.df[,3] <- .this.df[,3]-1L
+    }
+
+    ## .this <- data.frame(poi, as.data.frame(.this.rd)[,select])
+    ## .vname <- paste("s", chr, sep=".")
+    .fname <- paste(prefix, select[i], "txt", sep=".")
+    ## assign(.vname, .this)
+    write.table(.this.df[,c(1,2,3,5)],
+                file=file.path(dir,.fname),
+                col.names=F,
+                row.names=F,
+                quote=F)
+    cat("done!\n")
+  }
+}
          
                    

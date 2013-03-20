@@ -134,7 +134,8 @@
            bcvrg.rd,
            file=bcvrg.out)
       
-      io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))      
+      io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))
+      if(output.binnedProfile) io.binnedProfile(bcvrg.rd, dir= get.ws.path("report"))
       
       sink(type="message")
       sink()
