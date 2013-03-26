@@ -12,6 +12,7 @@ function(site.rl,
     gaps.mtched <- subsetByOverlaps(gaps.within.rl, site.rl, type=type)
   }
   .disjoin <- disjoin(combine.2rl(site.rl, gaps.mtched))
-  out <- setdiff(.disjoin, gaps.mtched)
+ 
+  out <- .disjoin[!(.disjoin%in%gaps.mtched)]
   out
 }

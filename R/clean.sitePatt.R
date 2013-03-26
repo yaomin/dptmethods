@@ -1,8 +1,9 @@
 #' @export
 clean.sitePatt <-
-function(patt, sites, e.TF, cutoff=0.5) {
+function(patt, sites, e.TF, cutoff=0.5, debug=F) {
   ### sites is IRanges
   ### e.TF is RangedData from ranged.e.TF
+  if(debug) browser()
   sites <- sites[[patt]]
   e.sub <- e.TF[ranges(e.TF)[[1]] %in% sites,]
   .fac <- rep(NA, length(e.sub[[1]]))
