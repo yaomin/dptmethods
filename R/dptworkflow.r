@@ -307,6 +307,8 @@
                               gaps.site$within[width(gaps.site$within)>shear.gap])
       
       sites.j <- lapply(sites.s, reduce, min.gapwidth=join.gap+1)
+
+      sites.mixed <- find.mixedPatternSites(sites.j, fragsizefilter.cutoff)
       
       ## Clean the sites based on their pattern consistancy
       

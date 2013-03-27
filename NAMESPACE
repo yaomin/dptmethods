@@ -60,6 +60,7 @@ export(site.gaps)
 export(start.para)
 export(stop.para)
 export(win.select)
+export(handle.mixedPatternSites)
 
 export(scanBamFiles)
 export(para.bam2coverage)
@@ -71,3 +72,4 @@ export(para.binCoverage)
 export(bcvrg.DFList2RD)
 export(get.data.bfscvrg)
 export(io.joinsample)
+
