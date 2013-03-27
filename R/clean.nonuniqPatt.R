@@ -10,7 +10,8 @@ function(sitelist) {
     nr.after <- unlist(lapply(sitelist[idx[i,]], nrow))
     cat("comparing",l.nms[idx[i,]],":",
         nr.before,"=>",nr.after,
-        ",", nr.after-nr.before)
+        ",", nr.after-nr.before,
+        "\n")
   }
   sitelist
 }
