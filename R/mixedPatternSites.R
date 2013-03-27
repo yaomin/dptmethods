@@ -10,7 +10,6 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
   patts <- names(sites)
   idx.n <- seq(length(sites))
   ## loop
-  ##pure.rl <- vector("list", length=length(sites))
   mixed.r <- NULL
   for (i in idx.n) {
     mix.i <- NULL
@@ -22,17 +21,13 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
       mix.i <- if(is.null(mix.i)) mix.j else c(mix.i, mix.j)
     }
     mix.i <- unique(mix.i)
-    ##pure.rl[[i]] <- sites[[i]][!(sites[[i]]%in%mix.i)]
     mixed.r <- if(is.null(mixed.r)) mix.i else c(mixed.r, mix.i)
   }
-  ##names(pure.rl) <- names(sites)
-  ##list(pure=RangesList(pure.rl), mixed=unique(mixed.r))
   unique(mixed.r)
 }
 
 reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
   
-  ##mixedSites <- sites$mixed
   mixedSites.disjoined <- disjoin(mixedSites)
   e.sub.0 <- e.TF[ranges(e.TF)[[1]] %in% mixedSites.disjoined,]
   e.sub.v <- as.data.frame(values(e.sub.0))
@@ -67,7 +62,6 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
   .summary.df <- pattSummary.2dataframe(.summary)
 
   out.mixed <- split(.disjoin3, .summary.df$best.pattern)[-1] ## remove P000
-  ##combine.2rl(sites.mixed$pure, out.mixed)
   out.mixed
 }
 
