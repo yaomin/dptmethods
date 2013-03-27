@@ -9,8 +9,8 @@ function(sitelist) {
     sitelist[idx[i,]] <- compete.patt(sitelist[idx[i,]])
     nr.after <- unlist(lapply(sitelist[idx[i,]], nrow))
     cat("comparing",l.nms[idx[i,]],":",
-        nr.before,"=>",nr.after,
-        ",", nr.after-nr.before,
+        nr.before,"\t=>\t",nr.after,
+        "\t,", nr.after-nr.before,
         "\n")
   }
   sitelist

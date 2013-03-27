@@ -71,6 +71,9 @@ handle.mixedPatternSites <- function(sites, e.TF,
   if(is(sites, "list")) sites <- RangesList(sites)
   mixed.r <- find.mixedPatternSites(sites, mixed.filter.cut)
   mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
-  pure.sites <- sites[!(sites%in%mixed.sites)]
+  ##pure.sites <- sites[!(sites%in%mixed.sites)]
+  pure.sites <- IRangesList(lapply(names(sites),
+                                   function(x) sites[[x]][!(sites[[x]]%in%mixed.r)]))
+  names(pure.sites) <- names(sites)
   combine.2rl(pure.sites, mixed.sites)
 }
