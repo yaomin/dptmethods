@@ -68,6 +68,7 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
 handle.mixedPatternSites <- function(sites, e.TF,
                                      mixed.filter.cut =120,
                                      cutoff=0.5) {
+  if(is(sites, "list")) sites <- RangesList(sites)
   mixed.r <- find.mixedPatternSites(sites, mixed.filter.cut)
   mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
   pure.sites <- sites[!(sites%in%mixed.sites)]
