@@ -308,16 +308,18 @@
       
       sites.j <- lapply(sites.s, reduce, min.gapwidth=join.gap+1)
 
-      sites.mixed <- find.mixedPatternSites(sites.j, fragsizefilter.cutoff)
+     
       
       ## Clean the sites based on their pattern consistancy
       
       e.TF <- ranged.e.TF(e.res, winsize, cutoff=events.cut)
       
+      sites.m <- handle.mixedPatternSites(sites.j, e.TF, fragsizefilter.cutoff)
+      
       sites.cleaned.1 <- parLapply(cl,
-                                   names(sites.j),
+                                   names(sites.m),
                                    clean.sitePatt,
-                                   sites=sites.j,
+                                   sites=sites.m,
                                    e.TF=e.TF,
                                    cutoff=cleansite.cutoff)
       
