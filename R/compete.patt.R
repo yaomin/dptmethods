@@ -3,6 +3,7 @@ function(sitelist) {
   olp <- findOverlaps(sitelist[[1]], sitelist[[2]])
   if(length(olp) >1) stop("Requre RangesMatchingList of length 1 between two sites")
   mm <- as.matrix(olp)
+  cat("overlaps:", nrow(mm))
   if(nrow(mm)>0) {
     ## valid: scores in [[1]] > [[2]]
     s1 <- score(sitelist[[1]])[mm[,1]]
