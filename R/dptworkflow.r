@@ -308,33 +308,38 @@
       
       sites.j <- IRangesList(lapply(sites.s, reduce, min.gapwidth=join.gap+1))
 
-     
-      
       ## Clean the sites based on their pattern consistancy
       
       e.TF <- ranged.e.TF(e.res, winsize, cutoff=events.cut)
       
       sites.m <- handle.mixedPatternSites(sites.j, e.TF, fragsizefilter.cutoff)
       if(fragsizefilter.pr) sites.m <- sites.m[width(sites.m)>fragsizefilter.cutoff]
-      
-      
-      sites.cleaned.1 <- parLapply(cl,
-                                   names(sites.m),
-                                   clean.sitePatt,
-                                   sites=sites.m,
-                                   e.TF=e.TF,
-                                   cutoff=cleansite.cutoff)
-      
-      stop.para(cl)
-      
-      names(sites.cleaned.1) <- names(sites.j)
-      cat("cleanup sites with non-unique pattern ...\n")
-      sites.cleaned <- IRangesList(lapply(clean.nonuniqPatt(sites.cleaned.1),
-                                          function(x) ranges(x)[[1]]))
-      
-      
+
       wins.full <- ranges(e.TF)[[1]]
-      sites.js <- format.sites4diffTest(wins.full, sites.cleaned, chr)
+      
+      if(cleansite.cutoff>0) {
+        sites.cleaned.1 <- parLapply(cl,
+                                     names(sites.m),
+                                     clean.sitePatt,
+                                     sites=sites.m,
+                                     e.TF=e.TF,
+                                     cutoff=cleansite.cutoff)
+      
+        stop.para(cl)
+      
+        names(sites.cleaned.1) <- names(sites.j)
+        cat("cleanup sites with non-unique pattern ...\n")
+      ## sites.cleaned <- IRangesList(lapply(clean.nonuniqPatt(sites.cleaned.1),
+      ##                                     function(x) ranges(x)[[1]]))
+        sites.cleaned <- IRangesList(lapply(sites.cleaned.1,
+                                            function(x) ranges(x)[[1]]))
+      
+      
+      
+        sites.js <- format.sites4diffTest(wins.full, sites.cleaned, chr)
+      } else {
+        sites.js <- format.sites4diffTest(wins.full, sites.m, chr)
+      }
       
       ## Postprocess
       
