@@ -72,4 +72,5 @@ export(para.binCoverage)
 export(bcvrg.DFList2RD)
 export(get.data.bfscvrg)
 export(io.joinsample)
+export(io.binnedProfile)
 
