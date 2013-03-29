@@ -147,12 +147,12 @@ process.bcvrg <- function(bcvrg, bsize, ncore=3) {
   bcvrg.full
 }
 
-io.joinsample <- function(bcvrg.full.rd,
-                          dir=".",
-                          select=NULL,
-                          chrs=NULL,
-                          offset=0,
-                          prefix="joinsample") {
+output.joinsample <- function(bcvrg.full.rd,
+                              dir=".",
+                              select=NULL,
+                              chrs=NULL,
+                              offset=0,
+                              prefix="joinsample") {
   ##browser()
   if(is.null(select)) select=grep("^s",
                         colnames(bcvrg.full.rd),
@@ -173,13 +173,40 @@ io.joinsample <- function(bcvrg.full.rd,
     cat("done!\n")
   }
 }
+
+output.nreads.countTbs <- function(bcvrg.full.rd,
+                                   dir=".",
+                                   select=NULL) {
+
+  if(is.null(select)) select=grep("^s",
+                        colnames(bcvrg.full.rd),
+                        v=T)
+  .this <- bcvrg.full.rd[,select]
+  n.reads <- vector("numeric", length=ncol(.this))
+  count.tbs <- vector("list", length=ncol(.this))
+  for(i in seq(ncol(.this))) {
+    .this.i <- .this[[i]]
+    n.reads[i] <- sum(.this.i)
+    .tb <- as.data.frame(table(.this.i[.this.i!=0]))
+    names(.tb) <- c("count", "freq")
+    count.tbs[[i]] <- .tb
+  }
+  cat("writting n.reads and count.table to workspace...\n")
+  cat("",tabsps("n.reads"))
+  save(n.reads, file=file.path(dir,"nreads.RData"))
+  cat("done\n")
+  cat("",tabsps("count.tbs"))
+  save(count.tbs, file=file.path(dir,"countdistr.RData"))
+  cat("done\n")
+}
+
            
-io.binnedProfile <- function(bcvrg.full.rd,
-                             dir=".",
-                             select=NULL,
-                             chrs=NULL,
-                             offset=0,
-                             prefix="binnedProfile") {
+output.binnedProfile <- function(bcvrg.full.rd,
+                                 dir=".",
+                                 select=NULL,
+                                 chrs=NULL,
+                                 offset=0,
+                                 prefix="binnedProfile") {
   
   if(is.null(select)) select=grep("^s",
                         colnames(bcvrg.full.rd),

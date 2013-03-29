@@ -134,8 +134,9 @@
            bcvrg.rd,
            file=bcvrg.out)
       
-      io.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))
-      if(output.binnedProfile) io.binnedProfile(bcvrg.rd, dir= get.ws.path("report"))
+      output.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))
+      output.nreads.countTbs(bcvrg.rd, dir=get.ws.path("joinSample"))
+      if(output.binnedProfile) output.binnedProfile(bcvrg.rd, dir= get.ws.path("joinSample"))
       
       sink(type="message")
       sink()
@@ -168,10 +169,17 @@
           cat("readin data from Preprocess ...")
           count.table <- get.mappedCountTab()
           if(initfilter.TF) {
-            init.filter.cutoff <- get.initfilter.cutoff(count.table, 0.5)
+            if(initfilter.method =="POI") {
+              ## options are POI, NB, ASIS"
+              init.filter.cutoff <- get.initfilter.cutoff(count.table, initfilter.cutoff)
+            } else {
+              init.filter.cutoff <- initfilter.cutoff
+            }
           } else {
-            init.filter.cutoff <- initfilter.cutoff
+            init.filter.cutoff <- 0
           }
+                    
+          
           get.reads.fromJoinedSamples(get.wsoption.path("joinSample"),
                                       chr,
                                       threshold=init.filter.cutoff,
