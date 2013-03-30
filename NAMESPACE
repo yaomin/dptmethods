@@ -74,4 +74,5 @@ export(get.data.bfscvrg)
 export(output.joinsample)
 export(output.nreads.countTbs)
 export(output.binnedProfile)
+export(get.initfilter.cutoff)
 
