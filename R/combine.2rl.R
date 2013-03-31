@@ -14,6 +14,6 @@ function(x,y) {
       .outlist[[nm]] <- c(x[[nm]],y[[nm]])
     }
   }
-  com.rdl <- RangesList(.outlist)
-  c(com.rdl, x[x.only.names], y[y.only.names])
+  com.rdl <- RangesList(.outlist[com.names])
+  c(com.rdl, x[x.only.names], y[y.only.names])[union.names]
 }
