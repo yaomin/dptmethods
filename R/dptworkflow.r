@@ -483,7 +483,7 @@
       ##. Computation
       if(fragsizefilter.TF) {
         test.report.flat <- subset(get.difftest.flatReport(winsize=winsize),
-                                   subset=end-start>=fragsizefilter.cutoff)
+                                   subset=(end-start+winsize)>=fragsizefilter.cutoff)
       } else test.report.flat <- get.difftest.flatReport(winsize=winsize)
       
       test.report.sigs <- select.sig.sites(test.report.flat,
