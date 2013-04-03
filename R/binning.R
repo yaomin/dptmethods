@@ -215,6 +215,7 @@ output.binnedProfile <- function(bcvrg.full.rd,
   ## if(is.null(chrs)) chrs <- names(bcvrg.full.rd)
   ## renames <- c("poi", select[-1])
   ## chrs <- names(bcvrg.full.rd)
+  if(!is.null(chrs)) bcvrg.full.rd <- bcvrg.full.rd[chrs]
   cat("Output binnedProfile dataset:\n")
   for(i in seq(select)) {
     cat(select[i], "\t")
@@ -238,5 +239,11 @@ output.binnedProfile <- function(bcvrg.full.rd,
     cat("done!\n")
   }
 }
+
+cv.filter.bcvrg <- function(bcvrg.rd,
+                            select=NULL,
+                            lower.cut <- 10,
+                            upper.cut <- Inf) {
+  
          
                    
