@@ -241,11 +241,7 @@ output.binnedProfile <- function(bcvrg.full.rd,
   }
 }
 
-cv.filter.bcvrg <- function(bcvrg.rd,
-                            select=NULL,
-                            lower.cut =10,
-                            upper.cut =Inf) {
-}
+
   
          
                    

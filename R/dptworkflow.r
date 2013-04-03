@@ -136,7 +136,9 @@
       
       output.joinsample(bcvrg.rd, dir= get.ws.path("joinSample"))
       output.nreads.countTbs(bcvrg.rd, dir=get.ws.path("joinSample"))
-      if(output.binnedProfile) output.binnedProfile(bcvrg.rd, dir= get.ws.path("joinSample"))
+      if(output.binnedProfile) output.binnedProfile(bcvrg.rd,
+                                                    dir= get.ws.path("joinSample"),
+                                                    chrs=setdiff(names(bfs.info$chrlens), "PhiX"))
       
       sink(type="message")
       sink()
@@ -320,7 +322,8 @@
       
       e.TF <- ranged.e.TF(e.res, winsize, cutoff=events.cut)
       
-      sites.m <- handle.mixedPatternSites(sites.j, e.TF, fragsizefilter.cutoff)
+      sites.m.long <- handle.mixedPatternSites(sites.j, e.TF, fragsizefilter.cutoff)
+      sites.m <- disjoin.sites(sites.m.long, gaps.site$within, type="two.ends")
       if(fragsizefilter.pr) sites.m <- sites.m[width(sites.m)>fragsizefilter.cutoff]
 
       wins.full <- ranges(e.TF)[[1]]
