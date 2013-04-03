@@ -206,7 +206,8 @@ output.binnedProfile <- function(bcvrg.full.rd,
                                  select=NULL,
                                  chrs=NULL,
                                  offset=0,
-                                 prefix="binnedProfile") {
+                                 prefix="binnedProfile",
+                                 output.zero=F) {
   
   if(is.null(select)) select=grep("^s",
                         colnames(bcvrg.full.rd),
@@ -217,7 +218,9 @@ output.binnedProfile <- function(bcvrg.full.rd,
   cat("Output binnedProfile dataset:\n")
   for(i in seq(select)) {
     cat(select[i], "\t")
-    .this.df <- as.data.frame(bcvrg.full.rd[,i])
+    .this.rd <- bcvrg.full.rd[,i]
+    if(output.zero) .this.df <- as.data.frame(.this.rd)
+    else .this.df <- as.data.frame(.this.rd[which(.this.rd[[select[i]]]>0),])
     if(offset==0) {
       .this.df[,2] <- .this.df[,2]-1L
       .this.df[,3] <- .this.df[,3]-1L
