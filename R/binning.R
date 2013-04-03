@@ -235,15 +235,16 @@ output.binnedProfile <- function(bcvrg.full.rd,
                 file=file.path(dir,.fname),
                 col.names=F,
                 row.names=F,
-                quote=F)
+                quote=F,
+                sep="\t")
     cat("done!\n")
   }
 }
 
 cv.filter.bcvrg <- function(bcvrg.rd,
                             select=NULL,
-                            lower.cut <- 10,
-                            upper.cut <- Inf) {
+                            lower.cut =10,
+                            upper.cut =Inf) {
 }
   
          
