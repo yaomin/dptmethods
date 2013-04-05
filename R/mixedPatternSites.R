@@ -10,6 +10,7 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
   patts <- names(sites)
   idx.n <- seq(length(sites))
   ## loop
+  ## browser()
   mixed.r <- NULL
   for (i in idx.n) {
     mix.i <- NULL
@@ -31,7 +32,7 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
   mixedSites.disjoined <- disjoin(mixedSites)
   e.sub.0 <- e.TF[ranges(e.TF)[[1]] %in% mixedSites.disjoined,]
   e.sub.v <- as.data.frame(values(e.sub.0))
-  idx000 <- (apply(e.sub.v[,-(1:2)], 1, sum)==0)&e.sub.v$P000
+  idx000 <- (apply(e.sub.v[,-(1:2)], 1, sum)==0)&e.sub.v[grep("P0+$", names(e.sub.v))]
   sub000 <- ranges(e.sub.0)[[1]][idx000]
   site000 <- reduce(sub000)
 
@@ -61,8 +62,8 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
                   simplify=F)
   .summary.df <- pattSummary.2dataframe(.summary)
 
-  out.mixed <- split(.disjoin3, .summary.df$best.pattern)[-1] ## remove P000
-  out.mixed
+  out.mixed <- split(.disjoin3, .summary.df$best.pattern)
+  out.mixed[-grep("P0+$", names(out.mixed))]
 }
 
 handle.mixedPatternSites <- function(sites, e.TF,
