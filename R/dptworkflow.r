@@ -336,7 +336,7 @@
                                      e.TF=e.TF,
                                      cutoff=cleansite.cutoff)
       
-        stop.para(cl)
+
       
         names(sites.cleaned.1) <- names(sites.j)
         cat("cleanup sites with non-unique pattern ...\n")
@@ -351,6 +351,8 @@
       } else {
         sites.js <- format.sites4diffTest(wins.full, sites.m, chr)
       }
+      
+      stop.para(cl)
       
       ## Postprocess
       
