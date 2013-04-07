@@ -377,7 +377,8 @@
       
       save.ws(ws="pattRecog",
               what=c("chr","sample.label","winsize",
-                "sites", "sites.js.ex", "wins.sel", "e.res", "e.cut", "e.TF", "events.res", "events.wins",
+                "sites", "sites.js.ex", "wins.sel", "e.res", "e.cut", "e.TF",
+                "events.res", "events.wins",
                 ##"pmeans", "pmeans.norm", "bf.filtered")
                 "bf.filtered"),
               chr=chr

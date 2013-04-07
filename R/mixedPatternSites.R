@@ -78,11 +78,29 @@ handle.mixedPatternSites <- function(sites, e.TF,
   mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF,
                                             cutoff=cutoff,
                                             width.cutoff=mixed.filter.cut)
+  mixed.sites.r <- unlist(mixed.sites)
+
+  m.sites <- IRangesList(lapply(sites, subsetByOverlaps, mixed.sites.r))
+  ## p.sites.0 <- IRangesList(lapply(names(sites),
+  ##                                  function(x) sites[[x]][!(sites[[x]]%in%(mixed.sites.r))]))
+  p.sites.0 <- sites[!sites%in%m.sites]
+
   ##pure.sites <- sites[!(sites%in%mixed.sites)]
-  pure.sites <- IRangesList(lapply(names(sites),
-                                   function(x) sites[[x]][!(sites[[x]]%in%mixed.r)]))
-  names(pure.sites) <- names(sites)
-  IRangesList(lapply(combine.2rl(pure.sites, mixed.sites),
+##  p.sites.0 <- sites[!(sites%in%mixed.sites)]
+  ## pure.sites.0 <- IRangesList(lapply(names(sites),
+  ##                                  function(x) sites[[x]][!(sites[[x]]%in%mixed.sites)]))
+#  s.sites.1 <- sites[!sites%in%p.sites.0]
+  ##d.sites.1 <- disjoin(combine.2rl(s.sites.1, mixed.sites))
+  ##d.sites.1 <- disjoin(combine.2rl(s.sites.1, mixed.sites))
+  d.sites <- IRangesList(lapply(m.sites, function(x) disjoin(c(x, mixed.sites.r))))
+  ##p.sites.1 <- d.sites.1[!(d.sites.1%in%mixed.sites)]
+  p.sites.1 <- IRangesList(lapply(d.sites, function(x) x[!x%in%mixed.sites.r]))
+  pure.sites <- combine.2rl(p.sites.0, p.sites.1)
+
+  out <- combine.2rl(pure.sites, mixed.sites)
+  
+##  names(pure.sites) <- names(sites)
+  IRangesList(lapply(out,
                      reduce,
                      min.gapwidth=join.gap))
 }
