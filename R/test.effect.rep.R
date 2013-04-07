@@ -9,7 +9,7 @@ function(cl,wins, psig, vars, group.label, rep.label,
   test.effect.worker <- function(i) {
     ## 31775 is one with NULL output
     ### Debug code
-    ## if(i%%10 ==0) cat("** ")
+    ## if(i%%10 ==0) cat("**")
     ## cat(i)
     ## if(i%%10==0) cat("\n")
     wins.by.id <- as.character(unlist(subset(wins,

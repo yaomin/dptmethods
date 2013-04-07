@@ -27,7 +27,7 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
   unique(mixed.r)
 }
 
-reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
+reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5, width.cutoff=120) {
   
   mixedSites.disjoined <- disjoin(mixedSites)
   e.sub.0 <- e.TF[ranges(e.TF)[[1]] %in% mixedSites.disjoined,]
@@ -62,8 +62,10 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5) {
                   simplify=F)
   .summary.df <- pattSummary.2dataframe(.summary)
 
-  out.mixed <- split(.disjoin3, .summary.df$best.pattern)
-  out.mixed[-grep("P0+$", names(out.mixed))]
+  out.mixed <- split(.disjoin3[which(.summary.df$best.valid),],
+                     .summary.df$best.pattern[which(.summary.df$best.valid)])
+  out <- out.mixed[-grep("P0+$", names(out.mixed))]
+  RangesList(lapply(out, function(x) x[width(x)>width.cutoff,]))
 }
 
 handle.mixedPatternSites <- function(sites, e.TF,
@@ -73,7 +75,9 @@ handle.mixedPatternSites <- function(sites, e.TF,
   if(is.null(join.gap)) join.gap <- mixed.filter.cut
   if(is(sites, "list")) sites <- RangesList(sites)
   mixed.r <- find.mixedPatternSites(sites, mixed.filter.cut)
-  mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
+  mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF,
+                                            cutoff=cutoff,
+                                            width.cutoff=mixed.filter.cut)
   ##pure.sites <- sites[!(sites%in%mixed.sites)]
   pure.sites <- IRangesList(lapply(names(sites),
                                    function(x) sites[[x]][!(sites[[x]]%in%mixed.r)]))

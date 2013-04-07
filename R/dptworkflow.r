@@ -320,7 +320,7 @@
 
       ## Clean the sites based on their pattern consistancy
       
-      e.TF <- ranged.e.TF(e.res, winsize, cutoff=events.cut)
+      e.TF <- ranged.e.TF(e.res, winsize, cutoff=e.cut)
       
       sites.m.long <- handle.mixedPatternSites(sites.j, e.TF, fragsizefilter.cutoff)
       sites.m <- disjoin.sites(sites.m.long, gaps.site$within, type="two.ends")
@@ -377,7 +377,7 @@
       
       save.ws(ws="pattRecog",
               what=c("chr","sample.label","winsize",
-                "sites", "sites.js.ex", "wins.sel", "e.res", "e.cut", "events.res", "events.wins",
+                "sites", "sites.js.ex", "wins.sel", "e.res", "e.cut", "e.TF", "events.res", "events.wins",
                 ##"pmeans", "pmeans.norm", "bf.filtered")
                 "bf.filtered"),
               chr=chr
@@ -545,8 +545,8 @@
       test.regions.1 <- map.region(test.report.signs, gap=region.gap)
       
       ##.. futher correction to 0/1 decision 
-      test.regions.2 <- cbind(test.regions.1, calculate.gmeans(test.regions.1))
-      test.regions <- cleanup.on.gmeans(test.regions.2)
+      test.regions <- cbind(test.regions.1, calculate.gmeans(test.regions.1))
+      ##test.regions <- cleanup.on.gmeans(test.regions.2)
       test.regions$id <- paste(test.regions$chr,"s",seq(nrow(test.regions)), sep="_")
       table(test.regions[,c("pattern", "contrast", "MethylType")])
       report.file.prefix <- dpt.options[[c("output","analysis")]]
@@ -629,7 +629,7 @@
                 row.names=F)
       save.ws(ws="analysis",
               what=c("test.report.signs",
-                "test.regions.1","test.regions.2","test.regions",
+                "test.regions.1","test.regions",
                 "chrs",
                 "reads.report.df",
                 "reads.report",
