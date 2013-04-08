@@ -322,7 +322,8 @@
       
       e.TF <- ranged.e.TF(e.res, winsize, cutoff=e.cut)
       
-      sites.m.long <- handle.mixedPatternSites(sites.j, e.TF, fragsizefilter.cutoff)
+      sites.m.long <- handle.mixedPatternSites(sites.j, e.TF,
+                                               fragsizefilter.cutoff)
       sites.m <- disjoin.sites(sites.m.long, gaps.site$within, type="two.ends")
       if(fragsizefilter.pr) sites.m <- sites.m[width(sites.m)>fragsizefilter.cutoff]
 

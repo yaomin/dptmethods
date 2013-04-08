@@ -9,8 +9,8 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
   sites <- sites[width(sites)>width.cutoff]
   patts <- names(sites)
   idx.n <- seq(length(sites))
+
   ## loop
-  ## browser()
   mixed.r <- NULL
   for (i in idx.n) {
     mix.i <- NULL
@@ -27,10 +27,12 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
   unique(mixed.r)
 }
 
-reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5, width.cutoff=120) {
-  
+reAssign.mixedPatternSites <- function(mixedSites, e.TF) {
+
   mixedSites.disjoined <- disjoin(mixedSites)
-  e.sub.0 <- e.TF[ranges(e.TF)[[1]] %in% mixedSites.disjoined,]
+  e.TF.r <- ranges(e.TF)[[1]]
+  ## remove P000 on two ends
+  e.sub.0 <- e.TF[e.TF.r %in% mixedSites.disjoined,]
   e.sub.v <- as.data.frame(values(e.sub.0))
   idx000 <- (apply(e.sub.v[,-(1:2)], 1, sum)==0)&e.sub.v[grep("P0+$", names(e.sub.v))]
   sub000 <- ranges(e.sub.0)[[1]][idx000]
@@ -43,64 +45,33 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF, cutoff=0.5, width.cutof
   .disjoin <- disjoin(c(mixedSites.disjoined, mtched))
   .disjoin2 <- .disjoin[!(.disjoin%in%mtched)]
 
-  e.sub <- e.TF[ranges(e.TF)[[1]] %in% .disjoin2,]
-  e.ranges <- ranges(e.sub)[[1]]
+  ## compuate the best pattern for each disjoined site
+  mtch.idx2 <- findOverlaps(e.TF.r, .disjoin2)
 
-  .disjoin3 <- .disjoin2[.disjoin2%in%e.ranges]
-
-  e.sub2 <- e.TF[ranges(e.TF)[[1]] %in% .disjoin3,]
-  e.ranges2 <- ranges(e.sub2)[[1]]
-  
-  .fac <- rep(NA, length(e.sub2[[1]]))
-  
-  .fac <- match(e.ranges2, .disjoin3)
-  
-  .summary <-  by(as.data.frame(values(e.sub2))[,-1],
-                  list(.fac),
+  .summary <-  by(as.data.frame(values(e.TF[queryHits(mtch.idx2),]))[,-1],
+                  list(subjectHits(mtch.idx2)),
                   function(x, cutoff) patt.summary(x, cutoff),
-                  cutoff=cutoff,
+                  cutoff=0.5,
                   simplify=F)
+
   .summary.df <- pattSummary.2dataframe(.summary)
 
-  out.mixed <- split(.disjoin3[which(.summary.df$best.valid),],
-                     .summary.df$best.pattern[which(.summary.df$best.valid)])
-  out <- out.mixed[-grep("P0+$", names(out.mixed))]
-  RangesList(lapply(out, function(x) x[width(x)>width.cutoff,]))
+  out.mixed <- split(.disjoin2[unique(subjectHits(mtch.idx2)),], .summary.df$best.pattern)
+  out.mixed[-grep("P0+$", names(out.mixed))]
 }
 
 handle.mixedPatternSites <- function(sites, e.TF,
                                      mixed.filter.cut =120,
-                                     join.gap=NULL,
-                                     cutoff=0.5) {
+                                     join.gap=NULL) {
   if(is.null(join.gap)) join.gap <- mixed.filter.cut
   if(is(sites, "list")) sites <- RangesList(sites)
   mixed.r <- find.mixedPatternSites(sites, mixed.filter.cut)
-  mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF,
-                                            cutoff=cutoff,
-                                            width.cutoff=mixed.filter.cut)
-  mixed.sites.r <- unlist(mixed.sites)
-
-  m.sites <- IRangesList(lapply(sites, subsetByOverlaps, mixed.sites.r))
-  ## p.sites.0 <- IRangesList(lapply(names(sites),
-  ##                                  function(x) sites[[x]][!(sites[[x]]%in%(mixed.sites.r))]))
-  p.sites.0 <- sites[!sites%in%m.sites]
-
+  mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
   ##pure.sites <- sites[!(sites%in%mixed.sites)]
-##  p.sites.0 <- sites[!(sites%in%mixed.sites)]
-  ## pure.sites.0 <- IRangesList(lapply(names(sites),
-  ##                                  function(x) sites[[x]][!(sites[[x]]%in%mixed.sites)]))
-#  s.sites.1 <- sites[!sites%in%p.sites.0]
-  ##d.sites.1 <- disjoin(combine.2rl(s.sites.1, mixed.sites))
-  ##d.sites.1 <- disjoin(combine.2rl(s.sites.1, mixed.sites))
-  d.sites <- IRangesList(lapply(m.sites, function(x) disjoin(c(x, mixed.sites.r))))
-  ##p.sites.1 <- d.sites.1[!(d.sites.1%in%mixed.sites)]
-  p.sites.1 <- IRangesList(lapply(d.sites, function(x) x[!x%in%mixed.sites.r]))
-  pure.sites <- combine.2rl(p.sites.0, p.sites.1)
-
-  out <- combine.2rl(pure.sites, mixed.sites)
-  
-##  names(pure.sites) <- names(sites)
-  IRangesList(lapply(out,
+  pure.sites <- IRangesList(lapply(names(sites),
+                                   function(x) sites[[x]][!(sites[[x]]%in%mixed.r)]))
+  names(pure.sites) <- names(sites)
+  IRangesList(lapply(combine.2rl(pure.sites, mixed.sites),
                      reduce,
                      min.gapwidth=join.gap))
 }
