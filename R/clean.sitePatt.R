@@ -5,7 +5,7 @@ function(patt, sites, e.TF, cutoff=0.5, debug=F) {
   ### e.TF is RangedData from ranged.e.TF
   if(debug) browser()
   sites <- sites[[patt]]
-  e.sub <- e.TF[ranges(e.TF)[[1]] %in% sites,]
+  e.sub <- e.TF[ranges(e.TF)[[1]] %over% sites,]
   .fac <- rep(NA, length(e.sub[[1]]))
   e.ranges <- ranges(e.sub)[[1]]
   .fac <- match(e.ranges, sites)

@@ -17,7 +17,7 @@ find.mixedPatternSites <- function(sites, width.cutoff=120) {
     cat(patts[i], ":\n")
     for (j in setdiff(idx.n, i)) {
       cat("\tcompare to", patts[j],"\n")
-      idx.mixed <- sites[[i]]%in%sites[[j]]
+      idx.mixed <- sites[[i]]%over%sites[[j]]
       mix.j <- sites[[i]][idx.mixed]
       mix.i <- if(is.null(mix.i)) mix.j else c(mix.i, mix.j)
     }
@@ -32,7 +32,7 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF) {
   mixedSites.disjoined <- disjoin(mixedSites)
   e.TF.r <- ranges(e.TF)[[1]]
   ## remove P000 on two ends
-  e.sub.0 <- e.TF[e.TF.r %in% mixedSites.disjoined,]
+  e.sub.0 <- e.TF[e.TF.r %over% mixedSites.disjoined,]
   e.sub.v <- as.data.frame(values(e.sub.0))
   idx000 <- (apply(e.sub.v[,-(1:2)], 1, sum)==0)&e.sub.v[grep("P0+$", names(e.sub.v))]
   sub000 <- ranges(e.sub.0)[[1]][idx000]
@@ -43,7 +43,7 @@ reAssign.mixedPatternSites <- function(mixedSites, e.TF) {
   mtched <- c(mtch1, mtch2)
 
   .disjoin <- disjoin(c(mixedSites.disjoined, mtched))
-  .disjoin2 <- .disjoin[!(.disjoin%in%mtched)]
+  .disjoin2 <- .disjoin[!(.disjoin%over%mtched)]
 
   ## compuate the best pattern for each disjoined site
   mtch.idx2 <- findOverlaps(e.TF.r, .disjoin2)
@@ -69,7 +69,7 @@ handle.mixedPatternSites <- function(sites, e.TF,
   mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
   ##pure.sites <- sites[!(sites%in%mixed.sites)]
   pure.sites <- IRangesList(lapply(names(sites),
-                                   function(x) sites[[x]][!(sites[[x]]%in%mixed.r)]))
+                                   function(x) sites[[x]][!(sites[[x]]%over%mixed.r)]))
   names(pure.sites) <- names(sites)
   IRangesList(lapply(combine.2rl(pure.sites, mixed.sites),
                      reduce,

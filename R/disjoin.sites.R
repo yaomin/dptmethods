@@ -7,7 +7,7 @@ function(site.rl,
   if(type =="two.ends") {
     ## mtch1 <- subsetByOverlaps(gaps.within.rl, site.rl, type="start")
     ## mtch2 <- subsetByOverlaps(gaps.within.rl, site.rl, type="end")
-    gaps.mtched <- gaps.within.rl[!gaps.within.rl%in%subsetByOverlaps(gaps.within.rl,
+    gaps.mtched <- gaps.within.rl[!gaps.within.rl%over%subsetByOverlaps(gaps.within.rl,
                                                                       site.rl,
                                                                       type="within")]
     ## gaps.mtched <- combine.2rl(mtch1, mtch2)
@@ -16,6 +16,6 @@ function(site.rl,
   }
   .disjoin <- disjoin(combine.2rl(site.rl, gaps.mtched))
  
-  out <- .disjoin[!(.disjoin%in%gaps.mtched)]
+  out <- .disjoin[!(.disjoin%over%gaps.mtched)]
   out
 }
