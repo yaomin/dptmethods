@@ -89,7 +89,8 @@ function(y, initials=NULL, para.priors, controls,
     ## step 3 (lambda)
     szy <- sum(z.new[,2]*y)
     sz <- sum(z.new[,2])
-    lambda.new <- rgamma(1, shape=a0+szy, rate=b0+sz)
+    #     lambda.new <- rgamma(1, shape=a0+szy, rate=b0+sz)
+    lambda.new <- mean(y[((y>0)+(y<=4))==2], na.rm=TRUE) ## reset lambda.new
     ## step 4 (signal)
     szy <- z.new[,3]*y
     sz <- z.new[,3]
