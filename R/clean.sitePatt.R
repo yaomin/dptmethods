@@ -8,7 +8,7 @@ function(patt, sites, e.TF, cutoff=0.5, debug=F) {
   e.sub <- e.TF[ranges(e.TF)[[1]] %over% sites,]
   .fac <- rep(NA, length(e.sub[[1]]))
   e.ranges <- ranges(e.sub)[[1]]
-  .fac <- match(e.ranges, sites)
+  .fac <- findOverlaps(e.ranges, sites, select="first")
   .summary <-  by(as.data.frame(values(e.sub))[,-1],
                   list(.fac),
                   function(x, cutoff) patt.summary(x, cutoff),
