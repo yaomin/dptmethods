@@ -6,7 +6,7 @@ Title: Tools to support dtpscan pipeline
 Description: 
 URL: http://github.com/dptMethods
 Depends:
-    R (>= 2.14)
+    R (>= 3.0.1)
 Suggests:
     testthat,
     roxygen2,

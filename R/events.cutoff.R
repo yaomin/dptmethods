@@ -1,5 +1,5 @@
 events.cutoff <-
-function(res, e.res, cutoff, method = c("beta", "BF", "best"),find.range= c(-20,20)) {
+function(res, e.res, cutoff, method = c("beta", "BF", "best","asis"),find.range= c(-20,20)) {
   ## Beta prior based distribution
   ## events =
   ##   0 0
@@ -29,15 +29,16 @@ function(res, e.res, cutoff, method = c("beta", "BF", "best"),find.range= c(-20,
     attr(ret, 'para') <- para
     names(ret) <- NULL
   }
-  else if(method=="BF") {
-    ret <- rep(cutoff, ncol(events))
-    attr(ret, 'para') <- NA
-  }
   else if(method=="best") {
-    .cutoff <- findBest.escoreCutoff(e.res, seq(-2,2,0.01), cutoff)
+    .cutoff <- findBest.escoreCutoff(e.res, seq(-5,5,0.01), cutoff)
     ret <- rep(.cutoff, ncol(events))
     attr(ret, 'para') <- NA
   }
+  else {
+    ret <- rep(cutoff, ncol(events))
+    attr(ret, 'para') <- NA
+  }
+ 
   attr(ret, 'method') <- method
   ret
 }
