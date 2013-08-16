@@ -1,5 +1,4 @@
 #'  @export
-
 choose.events.cutoff <-
 function(res, e.res, cutoff, method=c("BF","beta","best","asis")) {
   method <- match.arg(method)

@@ -282,26 +282,20 @@
       }
       
       ## Parallel process
-      cl <- start.para(ncore, varlist="dptws.initexpr")
       cat("calculate event scores ...\n")
-      e.res <- events.score(cl,
-                            res,
-                            events.res,
-                            reads.poi,
-                            sample.label,
-                            npart=ncore,
-                            which.score=which.escore,
-                            para.mode=2)
+      e.res <- events.score2(res,
+			     events.res,
+			     reads.poi,
+			     sample.label)
       
       e.cut <- choose.events.cutoff(res,
                                     e.res,
-                                    events.cut,
-                                    events.cutoff.method)
+                                    events.cut,  # set 0
+                                    events.cutoff.method) # set "asis"
       
-      wins.sel <- win.select(e.res, e.cut,
-                             exclude.zeroPattern=T,
-                             zeroPattern.cutoff=events.cut+cleanZeroPattern.cutoff)
+      wins.sel <- win.select2(e.res, e.cut)
       cat("scan sites ...\n")
+      cl <- start.para(ncore, varlist="dptws.initexpr")
       sites <- search.sites.v2(cl,
                                wins.sel,
                                events.wins, chr, winsize,
@@ -320,7 +314,7 @@
 
       ## Clean the sites based on their pattern consistancy
       
-      e.TF <- ranged.e.TF(e.res, winsize, cutoff=e.cut)
+      e.TF <- ranged.e.TF(e.res, winsize, wins.sel)
       
       sites.m.long <- handle.mixedPatternSites(sites.j, e.TF,
                                                fragsizefilter.cutoff)
