@@ -10,8 +10,8 @@ function(res,
   events.res <- as.data.frame(events.res)
   sel.nonull <- !unlist(lapply(res, is.null)); res <- res[sel.nonull]
   
-  p3 <- c(unlist(lapply(res, dptmethods:::get.p)))
-  w3.res <- as.matrix(t(laply(res, dptmethods:::get.w3)))
+  p3 <- c(unlist(lapply(res, get.p)))
+  w3.res <- as.matrix(t(laply(res, get.w3)))
   dimnames(w3.res) <- NULL
   cat("num of input sites:", nrow(w3.res),"\n")
   e.res <- vector('list', ncol(events.res))

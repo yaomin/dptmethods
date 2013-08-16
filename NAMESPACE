@@ -76,3 +76,5 @@ export(output.nreads.countTbs)
 export(output.binnedProfile)
 export(get.initfilter.cutoff)
 
+export(events.score2)
+export(win.select2)
