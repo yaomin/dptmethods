@@ -192,12 +192,15 @@
           priors.e <- list(d=c(0.3, 0.3, 0.3),
                            lambda.prior=list(a=1, b=1/20),
                            signal.prior=list(q=0.1,s=0.1))
+
+	  lambda2s <- sapply(count.table, est.pois.lambda)
           
           ncore <- min(ncore, length(s.cols))
           
-          para.mixPois_eWin <- function(i.smp, priors, controls) {
+          para.mixPois_eWin <- function(i.smp, priors, controls, lambda2) {
             cat("start sample", i.smp, "\n")
             y1 <- reads[, i.smp+1]
+	    lambda2.i <- lambda2[i.smp]
             
             ## Run 2 (w/o initials)
             n <- length(y1)
@@ -209,7 +212,8 @@
             res.i <- mixPois_eWin(y=y1,
                                   initials=initials.e,
                                   para.priors=priors,
-                                  controls=controls)
+                                  controls=controls,
+				  lambda2=lambda2.i)
             return(res.i)
           }
       
@@ -221,7 +225,8 @@
                            seq(along=s.cols),
                            para.mixPois_eWin,
                            priors=priors.e,
-                           controls=controls)
+                           controls=controls,
+			   lambda2=lambda2s)
           res <- res[!unlist(lapply(res, is.null))]
           
           stop.para(cl)
