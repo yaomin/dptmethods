@@ -287,11 +287,14 @@
       }
       
       ## Parallel process
+      cl <- start.para(ncore, varlist="dptws.initexpr")
       cat("calculate event scores ...\n")
-      e.res <- events.score2(res,
+      e.res <- events.score4(cl,
+			     res,
 			     events.res,
 			     reads.poi,
-			     sample.label)
+			     sample.label,
+			     which.score=which.escore)
       
       e.cut <- choose.events.cutoff(res,
                                     e.res,
@@ -300,7 +303,6 @@
       
       wins.sel <- win.select2(e.res, e.cut)
       cat("scan sites ...\n")
-      cl <- start.para(ncore, varlist="dptws.initexpr")
       sites <- search.sites.v2(cl,
                                wins.sel,
                                events.wins, chr, winsize,

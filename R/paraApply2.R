@@ -30,5 +30,5 @@ function(cl, x, margin, fun, ..., tmp.dir=".tmp",ncore=NULL) {
                     simplify=F,
                     ...)
   unlink(tmp)
-  unsplit(out.l, .cut)
+  ldply(lapply(out.l,t), function(x) x)
 }
