@@ -34,7 +34,6 @@ function(cl,
     e.res[[i]] <- as.vector(.this)
     cat("\t","done\n")
   }
-  browser()
   e.res <- as.data.frame(e.res)
   names(e.res) <- paste("P", apply(events.res,2,paste, collapse=""), sep="")
   row.names(e.res) <- rownames
