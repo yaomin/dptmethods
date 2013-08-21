@@ -77,4 +77,5 @@ export(output.binnedProfile)
 export(get.initfilter.cutoff)
 
 export(events.score2)
+export(events.score4)
 export(win.select2)
