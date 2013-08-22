@@ -41,6 +41,9 @@ function(cl,
   row.names(e.res) <- rownames
   e.res.rs <- rowSums(e.res)
   e.res <- e.res/e.res.rs
+
+  e.res[is.na(e.res)] <- 0
+
   attr(e.res, 'p3') <- p3
   attr(e.res, 'event') <- events.res
   attr(e.res, 'label') <- sample.label
