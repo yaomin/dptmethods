@@ -3,7 +3,7 @@ function(x, group, which.p) {
     grp <- as.factor(group)
     p.len <- length(which.p)
     if(p.len>1) {
-	stopifnot(nlevels(grp)=p.len)
+	stopifnot(nlevels(grp)==p.len)
 	out <- 	sapply(seq(p.len),
 			      function(i) apply(x[,grp==levels(grp)[i]],
 						1,
