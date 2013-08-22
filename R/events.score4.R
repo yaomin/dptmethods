@@ -11,7 +11,7 @@ function(cl,
          para.mode=2) {
   ## so called event probability
 
-  if(length(which.score)>1) stop("Select only one number from 1-5!")
+#  if(length(which.score)>1) stop("Select only one number from 1-5!")
   events.res <- as.data.frame(events.res)
   sel.nonull <- !unlist(lapply(res, is.null)); res <- res[sel.nonull]
   
