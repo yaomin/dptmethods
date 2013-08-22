@@ -21,7 +21,7 @@ function(cl, x, margin, fun, ..., tmp.dir=".tmp",ncore=NULL) {
       .offset <- 0
     }
 #    ovec <- apply(x[seq(.len)+.offset,],margin, fun,...)
-    ovec <- do.call(fun, list(x=x[seq(.len)+.offset,],...))
+    ovec <- do.call(fun, list(y=x[seq(.len)+.offset,],...))
     ovec
   }
   out.l <- parSapply(cl,
