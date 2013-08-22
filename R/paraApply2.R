@@ -20,7 +20,8 @@ function(cl, x, margin, fun, ..., tmp.dir=".tmp",ncore=NULL) {
     } else {
       .offset <- 0
     }
-    ovec <- apply(x[seq(.len)+.offset,],margin, fun,...)
+#    ovec <- apply(x[seq(.len)+.offset,],margin, fun,...)
+    ovec <- do.call(fun, list(x=x[seq(.len)+.offset,],...))
     ovec
   }
   out.l <- parSapply(cl,
@@ -30,5 +31,5 @@ function(cl, x, margin, fun, ..., tmp.dir=".tmp",ncore=NULL) {
                     simplify=F,
                     ...)
   unlink(tmp)
-  ldply(lapply(out.l,t), function(x) x)
+  ldply(out.l, function(x) x)
 }

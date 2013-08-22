@@ -22,7 +22,7 @@ function(x, sample.label,cl,
       .P <- paraApply2(cl,
 		       escore$x,
 		       1,
-		       function(x, which.score,smp.label) escore.comp3(x, sample.label,which.score),
+		       function(y, which.score,smp.label) escore.comp3(y, sample.label,which.score),
 		       which.score=which.score,
 		       ncore=npart,
 		       smp.label=sample.label)
