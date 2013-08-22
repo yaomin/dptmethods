@@ -1,6 +1,6 @@
 event.prob4 <-
 function(x, sample.label,cl,
-         event=c(0,0,0,1,1,1,1,1,1), p=rep(0.33,9),
+         event=c(0,0,0,1,1,1,1,1,1), e.cut=0.5,p=rep(0.33,9),
                        which.score=.25, npart=10,
                        para.mode=1,p.fun="median")
   ## assume x is in w3.res format as above
@@ -27,6 +27,8 @@ function(x, sample.label,cl,
 		       ncore=npart,
 		       smp.label=sample.label)
   }
+  events.idx <- apply(.P > e.cut, 1, all)
+  .P[!events.idx,] <- 0
   .p <- tapply(p, sample.label, p.fun)
 
   out <- apply(t(apply(.P,1, function(x) x*.p)), 1, prod)
