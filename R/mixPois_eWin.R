@@ -62,7 +62,12 @@ function(y, initials=NULL, para.priors, controls, lambda2,
                      dpois(y, lambda=signal.old))
     tmp <- denpois*p.old	
     w <- tmp/rowSums(tmp) 
-    if (m > burnin){
+
+	#JMB: If dpois returns 0, NaNs will be induced when dividing w by rowSums(tmp). Since the probability is zero, it is appropriate to set these back to zero. This fixes a bug where the NaNs later cause pattRecog to fail.
+	rs <- rowSums(tmp)
+	w[rs==0,] <- 0
+
+	if (m > burnin){
       w.pst <- w.pst + w
       w.var <- w.var + w*w
     }
