@@ -66,12 +66,18 @@ handle.mixedPatternSites <- function(sites, e.TF,
   if(is.null(join.gap)) join.gap <- mixed.filter.cut
   if(is(sites, "list")) sites <- RangesList(sites)
   mixed.r <- find.mixedPatternSites(sites, mixed.filter.cut)
-  mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
-  ##pure.sites <- sites[!(sites%in%mixed.sites)]
-  pure.sites <- IRangesList(lapply(names(sites),
+  if(length(mixed.r)!=0)
+  {
+  	mixed.sites <- reAssign.mixedPatternSites(mixed.r, e.TF)
+  	##pure.sites <- sites[!(sites%in%mixed.sites)]
+  	pure.sites <- IRangesList(lapply(names(sites),
                                    function(x) sites[[x]][!(sites[[x]]%over%mixed.r)]))
-  names(pure.sites) <- names(sites)
-  IRangesList(lapply(combine.2rl(pure.sites, mixed.sites),
+  	names(pure.sites) <- names(sites)
+  	IRangesList(lapply(combine.2rl(pure.sites, mixed.sites),
                      reduce,
                      min.gapwidth=join.gap))
+  } else
+  {
+  	sites
+  }
 }
