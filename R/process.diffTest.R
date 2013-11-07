@@ -6,7 +6,7 @@ function(cl,sites.js.ex, events.wins, events.ctr, testmode.rep,
                              sample.label,
                              subject.label) {
   patts <- unique(sites.js.ex$pattern)
-  events.wins.matched <- events.wins[,match.patt.pattmx(patts, events.wins)]
+  events.wins.matched <- events.wins[,match.patt.pattmx(patts, events.wins), drop=FALSE]
   events.ctr.matched <- events.ctr[match.patt.pattmx(patts, events.wins)]
   patt.n <- length(patts)
   wins.test <- vector("list", length=patt.n)
@@ -40,7 +40,7 @@ function(cl,sites.js.ex, events.wins, events.ctr, testmode.rep,
                                            contr= events.ctr.matched[[i]][[j]],
                                            n.core = ncore, group.label=sample.label)
         attr(wins.test[[i]][[j]],'contrast') <- events.ctr.matched[[i]][[j]]
-        attr(wins.test[[i]][[j]],'pattern') <- events.wins.matched[,i]
+		attr(wins.test[[i]][[j]],'pattern') <- events.wins.matched[,i]
       }
     }
   }
