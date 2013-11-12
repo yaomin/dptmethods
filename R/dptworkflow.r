@@ -174,14 +174,19 @@
             if(initfilter.method =="POI") {
               ## options are POI, NB, ASIS"
               init.filter.cutoff <- get.initfilter.cutoff(count.table, initfilter.cutoff)
+            } else if(initfilter.method == "samplePOI") {
+              init.filter.cutoff <- get.initfilter.cutoff(count.table, initfilter.cutoff, bysample=TRUE)
             } else {
               init.filter.cutoff <- initfilter.cutoff
             }
           } else {
             init.filter.cutoff <- 0
           }
-                    
           
+          cat("\nUsing init.filter.cutoff(s):\n")
+          cat(paste(init.filter.cutoff, collapse=","))
+          cat("\n")
+
           get.reads.fromJoinedSamples(get.wsoption.path("joinSample"),
                                       chr,
                                       threshold=init.filter.cutoff,

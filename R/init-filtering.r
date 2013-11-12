@@ -20,7 +20,13 @@ compute.initfilter.cutoff <- function(tbs, cutoff=0.5) {
   which(ifsatisfy)[1]
 }
 
-get.initfilter.cutoff <- function(counts.tab, cutoff=0.5) {
+get.initfilter.cutoff <- function(counts.tab, cutoff=0.5, bysample=FALSE) {
   ##get.mappedCountTab()
-  compute.initfilter.cutoff(counts.tab, cutoff=cutoff)
+  if(!bysample) {
+    compute.initfilter.cutoff(counts.tab, cutoff=cutoff)
+  } else {
+    # Returns a vector with a per-sample cutoff rather than just the maximum cutoff
+    ifsatisfy <- sapply(counts.tab, function(x) sapply(1:10, est.fdr, tb=x)) < cutoff
+    apply(ifsatisfy, MARGIN=2, FUN=function(x) which(x)[1])
+  }  
 }
