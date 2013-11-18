@@ -27,6 +27,6 @@ get.initfilter.cutoff <- function(counts.tab, cutoff=0.5, bysample=FALSE) {
   } else {
     # Returns a vector with a per-sample cutoff rather than just the maximum cutoff
     ifsatisfy <- sapply(counts.tab, function(x) sapply(1:10, est.fdr, tb=x)) < cutoff
-    apply(ifsatisfy, MARGIN=2, FUN=function(x) which(x)[1])
+	apply(ifsatisfy, MARGIN=2, FUN=function(x) max(seq(1,length(x))[!x]))
   }  
 }
