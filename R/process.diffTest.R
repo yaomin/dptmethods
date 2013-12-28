@@ -6,7 +6,7 @@ function(cl,sites.js.ex, events.wins, events.ctr, testmode.rep,
                              sample.label,
                              subject.label) {
   patts <- unique(sites.js.ex$pattern)
-  events.wins.matched <- events.wins[,match.patt.pattmx(patts, events.wins)]
+  events.wins.matched <- events.wins[,match.patt.pattmx(patts, events.wins), drop=F]
   events.ctr.matched <- events.ctr[match.patt.pattmx(patts, events.wins)]
   patt.n <- length(patts)
   wins.test <- vector("list", length=patt.n)

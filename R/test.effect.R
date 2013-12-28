@@ -31,25 +31,7 @@ function(cl,wins, psig, vars, group.label,
                                 weights=varfun),
                             TRUE)
     if(!is(lme.pmean.sub.wt, 'try-error')) {
-      sigmaSq <- diag((lme.pmean.sub.wt$sigma*coef(lme.pmean.sub.wt$modelStruct$varStruct,
-                                                   uncons=F,
-                                                   allCoef=TRUE))^2)
-      ##R00R00 <- lme.pmean.sub.wt$varFix%*%ginv(sigmaSq)
-      R00R00 <- lme.pmean.sub.wt$varFix%*%diag(1/diag(sigmaSq))
-      
-      sigmaSq.d <- diag(as.vector(by(pmean.sub.lme.wt$w, pmean.sub.lme.wt$grp, mean)))
-      
-      sigmaSq.updated <- sigmaSq + sigmaSq.d
-      
-      varFix.updated <- R00R00%*%sigmaSq.updated
-      
-      stdErr.updated <- sqrt(diag(varFix.updated))
-      ## browser()
-      this.tTable <-  summary(lme.pmean.sub.wt)$tTable
-      this.tTable[,"Std.Error"] <- stdErr.updated
-      this.tTable[,"t-value"] <- this.tTable[,"Value"]/stdErr.updated
-      this.tTable[,"p-value"] <- pt(-abs(this.tTable[,"t-value"]), this.tTable[,"DF"])*2
-      res.i <- this.tTable
+      res.i <-  summary(lme.pmean.sub.wt)$tTable
       retn <- as.vector(res.i)
       nm.1 <- dimnames(res.i)[[1]]
       nm.2 <- dimnames(res.i)[[2]]
