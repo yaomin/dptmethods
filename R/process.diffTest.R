@@ -40,7 +40,7 @@ function(cl,sites.js.ex, events.wins, events.ctr, testmode.rep,
                                            contr= events.ctr.matched[[i]][[j]],
                                            n.core = ncore, group.label=sample.label)
         attr(wins.test[[i]][[j]],'contrast') <- events.ctr.matched[[i]][[j]]
-        attr(wins.test[[i]][[j]],'pattern') <- events.wins.matched[,i]
+		attr(wins.test[[i]][[j]],'pattern') <- events.wins.matched[,i]
       }
     }
   }
