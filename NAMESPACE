@@ -13,6 +13,7 @@ import(Biostrings)
 import(mmap)
 import(qvalue)
 import(methods)
+import(GenomicAlignments)
 
 export(append.effectsign)
 ##export(batch.jobs)
