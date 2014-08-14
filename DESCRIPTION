@@ -11,7 +11,7 @@ Suggests:
     testthat,
     roxygen2,
     MCMCpack,
-    parallelg,
+    parallel,
     nlme,
     gmodels,
     MASS,
