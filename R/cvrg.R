@@ -58,7 +58,7 @@ bam2coverage <- function(file,
 
   scanParam <- ScanBamParam(flag=flag)
   
-  aligns <- readGappedAlignments(file, use.names=F, param=scanParam)
+  aligns <- readGAlignments(file, use.names=F, param=scanParam)
 
   bpcv <- dpt.bpcoverage(aligns,
                          ext=ext,
