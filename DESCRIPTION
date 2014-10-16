@@ -3,8 +3,8 @@ Maintainer: Yaomin Xu <yaomin@gmail.com>
 Author: Yaomin Xu <yaomin@gmail.com>
 Version: 0.1
 Title: Tools to support dtpscan pipeline
-Description: 
-URL: http://github.com/dptMethods
+Description: Support package to dptscan pipeline 
+URL: https://github.com/yaomin/dptmethods
 Depends:
     R (>= 3.0.0)
 Suggests:
