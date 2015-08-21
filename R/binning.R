@@ -87,7 +87,7 @@ bcvrg.DFList2RD <- function(bcvrg.dfl, chrlens) {
   bsize <- get.bcvrg.DFList(bcvrg.dfl,"metadata")[['bsize']]
   comchrs <- intersect(names(.data), names(chrlens))
   .rlist <- RangesList(lapply(chrlens[comchrs], len2IRanges, bsize))
-  .out <- RangedData(.rlist, get.bcvrg.DFList(bcvrg.dfl, "data")[comchrs])
+  .out <- RangedData(.rlist, as(.data[comchrs], "SplitDataFrameList"))
   .out
 }
 
